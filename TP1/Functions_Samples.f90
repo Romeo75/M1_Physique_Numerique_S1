@@ -4,8 +4,8 @@ module tp1
    real, parameter :: gam = 1.0   
    real, parameter :: w0 = 1.0
    real, parameter :: T = 1.0
-   real, parameter :: x0 = 0.1  ! Dans ce programme on ecrit l'angle comme la variable 'x' au lieu de la variable 'teta'
-   real, parameter :: eps = 1e-7 ! Niveau de precision avec laquelle on veut aproicher le zero de la fonction considérée
+   real, parameter :: x0 = 1.0 ! Dans ce programme on ecrit l'angle comme la variable 'x' au lieu de la variable 'teta'
+   real, parameter :: eps = 1e-20 ! Niveau de precision avec laquelle on veut aproicher le zero de la fonction considérée
     
 end
 !-------------------------------------------------------
@@ -45,6 +45,17 @@ subroutine e(x,y,dy)
 end
 !-------------------------------------------------------
 
+subroutine tani(x,y,dy)
+    implicit none
+    real x,y,dy
+    
+    y  = 0.5 - tanh(x-1)
+
+    dy = -1/(cosh(x-1))
+
+end
+!-------------------------------------------------------
+
 
 real function newton(f,x0,eps)
 
@@ -55,7 +66,7 @@ real function newton(f,x0,eps)
     integer i, imax
     logical convergence
     
-    imax = 10
+    imax = 20
     x = x0
     y = 1.0
 
@@ -88,13 +99,14 @@ end
 program transphase
     !implicit none
 
-    !Imports
+    !Imports (din't forget to include each subroutine)
     use tp1
     real :: newton
     external :: f
     external :: sini
     external :: e
-    
+    external :: tani
+
     !Variables disponibles
     write (*,*) ' Les parametres du probleme sont:    ', 'gam = ', gam, 'w0 = ', w0, 'T = ', T, 'x0 = ', x0, 'eps = ', eps
     
@@ -110,6 +122,9 @@ program transphase
     
     !test de e(x) = exp(x)
     write(*,*) '','test de e(x)', newton(e,X0,eps)
+
+    !test de tani(x) = 0.5 - tanh(x-1)
+    write(*,*) '','test de tani(x)', newton(tani,X0,eps)
 
 end
 !-------------------------------------------------------
