@@ -10,10 +10,13 @@ omega2 = g/l
 gamma = 2*n*R/(m*l*l)
 
 Tc = m*g*l/(2*n*R*theta0**2)
+do for [i=1:100]{
 T = 0.9*Tc
 
-f(x)=sin(x)/x*(theta0**2-x**2)-gamma/(omega2)*T
-df(x)= (theta0**2-x**2)*(x*cos(x)-sin(x))/(x**2) - 2*sin(x)
-set xlabel 'tetha (en rad)'
-set ylabel 'f(tetha) (en UI)'
-plot [-1:1] f(x),df(x),0.
+    f(x)=sin(x)/x*(theta0**2-x**2)-gamma/(omega2)*T
+    df(x)= (theta0**2-x**2)*(x*cos(x)-sin(x))/(x**2) - 2*sin(x)
+    set xlabel 'tetha (en rad)'
+    set ylabel 'f(tetha) (en UI)'
+    plot [-1:1] f(x),df(x),0.
+
+}

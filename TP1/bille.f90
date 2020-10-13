@@ -12,23 +12,23 @@ module tp1
     real, parameter :: w0 = g/l
     real, parameter :: x0 = 1.0 ! Dans ce programme on ecrit l'angle comme la variable 'x' au lieu de la variable 'teta'
     real, parameter :: Tc = m*g*l/(2*n*R*x0**2)
-    !real, parameter :: T = 0.1*Tc
+    real            :: T = Tc
     real, parameter :: eps = 1e-15 ! Niveau de precision avec laquelle on veut aproicher le zero de la fonction considérée
     real, parameter :: gam = 2*n*R/(m*l*l)
     
 end
 !-------------------------------------------------------
 
-subroutine f(x,y,dy,T)
+subroutine f(x,y,dy)
     !implicit none
     use tp1
     !real x0,T,w0,gam,g,l,m,R,n,eps
-    real x,y,dy,T
+    real x,y,dy
     
     
     y = ( sin(x)/x )*( x0**2 - x**2 ) - (gam*T)/(w0**2)
     
-    dy = (x0**2-x**2)*(x*cos(x)-sin(x))/(x**2) - 2*sin(x)
+    dy = ( x0**2 - x**2 )*( x*cos(x) - sin(x) )/(x**2) - 2*sin(x)
     
     !Debug
     !write (*,*) ' Les parametres du probleme sont:    ', 'gam = ', gam, 'w0 = ', w0, 'T = ', T, 'x0 = ', x0, 'eps = ', eps
@@ -36,27 +36,27 @@ subroutine f(x,y,dy,T)
 end
 !-------------------------------------------------------
 
-real function newton(f,x0,eps,T)
+real function newton(f)
 
-    implicit none
+    !implicit none
+    use tp1
     
-    real x,y,dy,eps,T
-    real x0
+    real x,y,dy
     integer i, imax
     logical convergence
     
     imax = 10
-    x = x0
+    x = 0.5
     y = 1.0
 
     print '(A)'
     do i = 1, imax 
     !La Variable imax permet d'eviter la consomation de ressources trop importante lorsque l'algorithme ne trouve pas de solutions
         
-        call f(x,y,dy,T) ! Initialise les valeurs à la ièmme boucle
+        call f(x,y,dy) ! Initialise les valeurs à la ièmme boucle
         
         !Debug
-        !write(*,*) 'i = ',i,'    y = ',y,'    dy = ',dy, ' x = ',x
+        write(*,*) 'i = ',i,'    y = ',y,'    dy = ',dy, ' x = ',x, '   T = ',T
         
         x = x - y/dy
         
@@ -66,7 +66,7 @@ real function newton(f,x0,eps,T)
         if ( convergence .or. i==imax ) then
             
             newton = x
-            !write(*,*) ' Le zero est à x = ', x
+            write(*,*) ' Le zero est à x = ', x
             
             exit 
         endif
@@ -80,7 +80,7 @@ program transphase
 
     !Imports (din't forget to include each subroutine)
     use tp1
-    real :: newton,T,Teq
+    real :: newton,Xeq
     integer :: k
     external :: f
 
@@ -90,18 +90,16 @@ program transphase
     !On peut disposer des subroutines:
     !   f(x)    [Probleme de la bille]
 
-    T = Tc
-
     open(1, file ='Teq.dat')
 
-    do k = 1,100
+    do k = 1,10
 
-        T = k*0.01*Tc
+        T = k*0.1*Tc
 
-        Teq = newton(f,X0,eps,T)
+        Xeq = newton(f)
         
-        write(*,*) T,'  ', Teq
-        write(1,*) T,'  ', Teq
+        write(*,*) T,'  ', Xeq
+        write(1,*) T,'  ', Xeq
 
     enddo
 
