@@ -10,7 +10,7 @@ module tp1
 
     !Variables du probleme
     real, parameter :: w0 = g/l
-    real, parameter :: x0 = -1.0 ! Dans ce programme on ecrit l'angle comme la variable 'x' au lieu de la variable 'teta'
+    real, parameter :: x0 = 1.0 ! Dans ce programme on ecrit l'angle comme la variable 'x' au lieu de la variable 'teta'
     real, parameter :: Tc = m*g*l/(2*n*R*x0**2)
     !real, parameter :: T = 0.1*Tc
     real, parameter :: eps = 1e-15 ! Niveau de precision avec laquelle on veut aproicher le zero de la fonction considérée
@@ -56,7 +56,7 @@ real function newton(f,x0,eps,T)
         call f(x,y,dy,T) ! Initialise les valeurs à la ièmme boucle
         
         !Debug
-        write(*,*) 'i = ',i,'    y = ',y,'    dy = ',dy, ' x = ',x
+        !write(*,*) 'i = ',i,'    y = ',y,'    dy = ',dy, ' x = ',x
         
         x = x - y/dy
         
@@ -66,7 +66,7 @@ real function newton(f,x0,eps,T)
         if ( convergence .or. i==imax ) then
             
             newton = x
-            write(*,*) ' Le zero est à x = ', x
+            !write(*,*) ' Le zero est à x = ', x
             
             exit 
         endif
@@ -80,7 +80,8 @@ program transphase
 
     !Imports (din't forget to include each subroutine)
     use tp1
-    real :: newton,T
+    real :: newton,T,Teq
+    integer :: k
     external :: f
 
     !Variables disponibles
@@ -91,8 +92,20 @@ program transphase
 
     T = Tc
 
-    do
-        write(*,*) '','test de f(x)', newton(f,X0,eps,T)
+    open(1, file ='Teq.dat')
+
+    do k = 1,100
+
+        T = k*0.01*Tc
+
+        Teq = newton(f,X0,eps,T)
+        
+        write(*,*) T,'  ', Teq
+        write(1,*) T,'  ', Teq
+
     enddo
+
+    close(1)
+
 end
 !-------------------------------------------------------
