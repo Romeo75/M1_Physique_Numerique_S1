@@ -26,7 +26,7 @@ subroutine f(x,y,dy)
     real x,y,dy
     
     
-    y = ( sin(x)/x )*( x0**2 - x**2 ) - (gam*T)/(w0**2)
+    y = ( sin(x)/x )*( x0**2 - x**2 ) - (gam*T)/(w0)
     
     dy = ( x0**2 - x**2 )*( x*cos(x) - sin(x) )/(x**2) - 2*sin(x)
     
@@ -36,18 +36,18 @@ subroutine f(x,y,dy)
 end
 !-------------------------------------------------------
 
-real function newton(f)
+real function newton(f,xi)
 
     !implicit none
     use tp1
     
-    real x,y,dy
+    real x,xi,y,dy
     integer i, imax
     logical convergence
     
     imax = 10
-    x = 0.5
-    y = 1.0
+    x = xi
+    y = 0.75
 
     print '(A)'
     do i = 1, imax 
@@ -56,7 +56,7 @@ real function newton(f)
         call f(x,y,dy) ! Initialise les valeurs à la ièmme boucle
         
         !Debug
-        write(*,*) 'i = ',i,'    y = ',y,'    dy = ',dy, ' x = ',x, '   T = ',T
+        !write(*,*) 'i = ',i,'    y = ',y,'    dy = ',dy, ' x = ',x, '   T = ',T
         
         x = x - y/dy
         
@@ -66,7 +66,7 @@ real function newton(f)
         if ( convergence .or. i==imax ) then
             
             newton = x
-            write(*,*) ' Le zero est à x = ', x
+            !write(*,*) ' Le zero est à x = ', x
             
             exit 
         endif
@@ -80,7 +80,7 @@ program transphase
 
     !Imports (din't forget to include each subroutine)
     use tp1
-    real :: newton,Xeq
+    real :: newton,Xeq,test,ytest,dytest
     integer :: k
     external :: f
 
@@ -90,20 +90,33 @@ program transphase
     !On peut disposer des subroutines:
     !   f(x)    [Probleme de la bille]
 
-    open(1, file ='Teq.dat')
+     open(1, file ='Teq.dat')
+     do k = 1,1000
+         T = k*0.001*Tc
+         Xeq = newton(f,0.5)
+    
+         !write(*,*) T,'  ', Xeq 
+         write(1,*) T,'  ', Xeq
+     enddo
 
-    do k = 1,10
+     close(1)
 
-        T = k*0.1*Tc
+     T = 0.1 * Tc
 
-        Xeq = newton(f)
-        
-        write(*,*) T,'  ', Xeq
-        write(1,*) T,'  ', Xeq
+    open(2, file ='f.dat')
 
-    enddo
+        do k = 1,1000
 
-    close(1)
+            test = -1 + k*( 2.0/1000 )
+
+            call f(test,ytest,dytest) 
+
+            write(*,*) test,'  ', ytest, '  ', dytest 
+            write(2,*) test,'  ', ytest, '  ', dytest 
+
+        enddo
+
+    close(2)
 
 end
 !-------------------------------------------------------
