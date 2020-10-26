@@ -66,7 +66,7 @@ real function newton(f,xi)
         if ( convergence .or. i==imax ) then
             
             newton = x
-            !write(*,*) ' Le zero est à x = ', x
+            write(*,*) ' Le zero est à x = ', x
             
             exit 
         endif
@@ -101,7 +101,9 @@ program transphase
 
      close(1)
 
-     T = 0.1 * Tc
+     T = 0.9 * Tc
+
+    write(*,*) '        Test :', newton(f,0.5)
 
     open(2, file ='f.dat')
 
@@ -111,7 +113,7 @@ program transphase
 
             call f(test,ytest,dytest) 
 
-            write(*,*) test,'  ', ytest, '  ', dytest 
+            !write(*,*) test,'  ', ytest, '  ', dytest 
             write(2,*) test,'  ', ytest, '  ', dytest 
 
         enddo

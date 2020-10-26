@@ -1,0 +1,25 @@
+On veut determiner l'impact du dt en considerant l'energie mecanique Em et l'ecart quadratique par rapport à la moyenne
+
+Faire boucle sur les dt
+boucle sur les dt:
+    do nit = -4,4
+        dt = 10**(nit*1.0)
+        write(*,*) dt
+        do ...
+            call rk4(...)
+        enddo
+    endo
+
+On veut donc retrancher la valeur theoique pour avoir l'impact de la methode numérique
+
+Var = sqrt(<Em**2> - <Em>**2)
+
+La triche est de enlever la valeur de reference par chaque itertion
+s = s + e - 0.5 <- reference
+
+On cherche à tracer l'evolution de l'ecart quadratique en fonction du pas de temps
+
+courbe log(Var) en fonction de dt
+
+
+
