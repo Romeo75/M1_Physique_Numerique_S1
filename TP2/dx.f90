@@ -14,7 +14,7 @@ module tp2
     real, parameter :: tho = 0.5
     real, parameter :: Vf = 0.1
     real, parameter :: Vc = Vf*log( ( gam*tho)/(Vf) )
-    real, parameter :: v_push = 0.1*Vc ! Vitesse initiale
+    real            :: v_push = 0.1*Vc ! Vitesse initiale
 
     contains
     !Subroutines
@@ -73,7 +73,10 @@ program eqdif
     integer                      :: n
     real                         :: t,dt
     real    ,   dimension(2)     :: x
-
+    
+    integer :: q
+    character(len=10) :: file_id
+    character(len=50) :: file_name
 
     !Initialisation des variables
     x(1)= x0
@@ -83,18 +86,37 @@ program eqdif
     dt = pas
     n = dim
     
-    open (1,file = 'x(t).dat')
+    !open (1,file = 'x(t).dat')
 
+    do q = 1, 15
+        
+        ! Write the integer into a string:
+        write(file_id, '(i0)') q
     
-    do i = 1, int(dure/dt)
+        ! Construct the filename:
+        file_name = 'x(t)_' // trim(adjustl(file_id)) // '.dat'
+    
+        ! Open the file with this name
+        open(file = trim(file_name), unit = q)
+        
+        write(*,*) 'V_push = ',V_push
+        write(q,*) '#V_push = ',V_push
 
-        call rk4(t,x,dt,n,deriv)
-        write(*,*) '    t = ', t, ' x = ', x(1), '  v = ',x(2),'  v_push*t = ',v_push*t
-        write(1,*) t,'  ',x(1),'   ',x(2),'	',v_push*t
-        t = t + dt
- 
+        do i = 1, int(dure/dt)
+    
+            call rk4(t,x,dt,n,deriv)
+            write(*,*) '    t = ', t, ' x = ', x(1), '  v = ',x(2),'  v_push*t = ',v_push*t
+            write(q,*) t,'  ',x(1),'   ',x(2),'	',v_push*t
+            t = t + dt
+     
+        end do
+
+        close(q)
+
+        V_push = q*0.1*Vc
+
     end do
-    close(1)
+    
 
 end program eqdif
 
