@@ -14,7 +14,7 @@ On veut donc retrancher la valeur theoique pour avoir l'impact de la methode num
 
 Var = sqrt(<Em**2> - <Em>**2)
 
-La triche est de enlever la valeur de reference par chaque itertion
+La triche est de enlever la valeur de reference par chaque iteration
 s = s + e - 0.5 <- reference
 
 On cherche à tracer l'evolution de l'ecart quadratique en fonction du pas de temps
