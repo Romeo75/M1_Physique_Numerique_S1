@@ -2,19 +2,18 @@ module tp2
     implicit none
     
     !Variables Universelles
-    real,   parameter ::  dure = 100
-    real,   parameter ::  pas_t = 0.01
-    real,   parameter ::  pas_dt = 0.1
-    real,   parameter ::  dt_i = 1e-5
-    real,   parameter ::  dt_f = 1
-    integer,   parameter ::  dim = 2
+    real,   parameter ::  dure = 100 !Durée de l'oscilation
+    real,   parameter ::  pas = 0.01 !pas dt qui convient à la mesure
+    integer,   parameter ::  dim = 2 !nombre de variables canoniques du systeme
     
     !Variables du probleme
-    real, parameter :: m = 1.0
-    real, parameter :: k = 1.0
-    real, parameter :: w0 = 1.0
-    real, parameter :: x0 = 1.0 
-    real, parameter :: v0 = 0.0
+    real, parameter :: w0 = 1.0 ! Vitesse angulaire caracteristique
+    real, parameter :: x0 = 1.0 ! Position initiale
+    real, parameter :: v0 = 0.0 ! Vitesse initiale
+    real, parameter :: gam = 1.0
+    real, parameter :: tho = 0.5
+    real, parameter :: Vf = 0.1
+
 
     contains
     !Subroutines
@@ -51,9 +50,12 @@ subroutine deriv(t,x,dx,n)
     real    ,                   intent(in)      :: t
     real    ,   dimension(n),   intent(inout)   :: x
     real    ,   dimension(n)                    :: dx
+    real                                        :: V_sign
     
+    V_sign = int( x(2)/abs(x(2)) )
+
     dx(1) = x(2)
-    dx(2) = w0*(v0*t-x(1))
+    dx(2) = w0*(v0*t-x(1)) - x(2)/tho - gam*V_sign*exp( -abs(x(2))/Vf )
 
 end subroutine deriv
 
@@ -65,10 +67,9 @@ program eqdif
     use tp2
     external :: deriv
     
-    integer                      :: i,q
+    integer                      :: i
     integer                      :: n
     real                         :: t,dt
-    real                         :: Em,Ec,Ep,Moy_Em,Moy_Em2,Var_dt
     real    ,   dimension(2)     :: x
 
     !Initialisation des variables
@@ -76,57 +77,21 @@ program eqdif
     x(2)= v0
     
     t = 0.0
-    dt = pas_t
+    dt = pas
     n = dim
-    Em = 0
-    Ec = 0
-    Ep = 0
-    Moy_Em = 0
-    Moy_Em2 = 0
     
     open (1,file = 'x(t).dat')
-    open (2,file = 'E(t).dat')
+
     
-    dt = dt_i
-    do q = 0, int( abs(dt_i - dt_f) / pas_dt)
-        
-        do i = 1, int(dure/dt)
-    
-            call rk4(t,x,dt,n,deriv)
-            
-            Ec = 0.5 * m * (x(2)**2)
-            Ep = 0.5 * k * (x(1)**2)
+    do i = 1, int(dure/dt)
 
-            Em = Ec + Ep
-
-            Moy_Em = Moy_Em + ( 0.5 * k * (x0**2) + 0.5 * m * (v0**2)) - Em
-
-            Moy_Em2 = Moy_Em2 +  (0.5 * k * (x0**2) + 0.5 * m * (v0**2))**2 - Em**2
-
-            !Enregistrement
-            !write(*,*) '    t = ', t, ' x = ', x(1), '  v = ',x(2),'  Ec = ',Ec,'  Ep = ',Ep,'  Em = ',Em
-            !write(1,*) t,'  ',x(1),'   ',x(2)
-
-            t = t + dt
-        end do
-
-        Moy_Em = Moy_Em/i
-        Moy_Em2 = Moy_Em2/i
-
-        Var_dt = Moy_Em2 - (Moy_Em)**2
-        
-        write(*,*) '    i = ',i,'   dt = ', dt,' Var_dt = ',Var_dt,' Moy_Em = ',Moy_Em,' Moy_Em2 = ',Moy_Em2
-        write(2,*) dt,' ',Var_dt,' ',Moy_Em
-        
-        Moy_Em = 0
-        Moy_Em2 = 0
-        
-
-        dt = dt + pas_dt
+        call rk4(t,x,dt,n,deriv)
+        write(*,*) '    t = ', t, ' x = ', x(1), '  v = ',x(2)
+        write(1,*) t,'  ',x(1),'   ',x(2)
+        t = t + dt
+ 
     end do
-    
     close(1)
-    close(2)
 
 end program eqdif
 
