@@ -1,4 +1,4 @@
-plot [0:15] 'x(t).dat' u 1:2
-set xlabel ' t ( en UA)'
-set ylabel ' x(t) ( en UA)'
-set title "Position du pendule libre avec frotement"
+plot 'x(t).dat' u 1:3
+set xlabel ' t ( en USI)'
+set ylabel ' V(t) ( en USI)'
+set title "Vitesse du pendule soumis à un frotement et tiré avec une vitesse v0 = "

@@ -8,12 +8,13 @@ module tp2
     
     !Variables du probleme
     real, parameter :: w0 = 1.0 ! Vitesse angulaire caracteristique
-    real, parameter :: x0 = 1.0 ! Position initiale
+    real, parameter :: x0 = 0.0 ! Position initiale
     real, parameter :: v0 = 0.0 ! Vitesse initiale
     real, parameter :: gam = 1.0
     real, parameter :: tho = 0.5
     real, parameter :: Vf = 0.1
-
+    real, parameter :: Vc = Vf*log( ( gam*tho)/(Vf) )
+    real, parameter :: v_push = 0.1*Vc ! Vitesse initiale
 
     contains
     !Subroutines
@@ -52,10 +53,11 @@ subroutine deriv(t,x,dx,n)
     real    ,   dimension(n)                    :: dx
     real                                        :: V_sign
     
-    V_sign = int( x(2)/abs(x(2)) )
+    !V_sign = int( x(2)/abs(x(2)) )
+
 
     dx(1) = x(2)
-    dx(2) = w0*(v0*t-x(1)) - x(2)/tho - gam*V_sign*exp( -abs(x(2))/Vf )
+    dx(2) = (w0**2)*(v_push*t-x(1)) - dx(1)/tho - sign(gam,dx(1))*exp( -abs(dx(1))/Vf )
 
 end subroutine deriv
 
@@ -72,9 +74,10 @@ program eqdif
     real                         :: t,dt
     real    ,   dimension(2)     :: x
 
+
     !Initialisation des variables
     x(1)= x0
-    x(2)= v0
+    x(2)= V0
     
     t = 0.0
     dt = pas
@@ -86,8 +89,8 @@ program eqdif
     do i = 1, int(dure/dt)
 
         call rk4(t,x,dt,n,deriv)
-        write(*,*) '    t = ', t, ' x = ', x(1), '  v = ',x(2)
-        write(1,*) t,'  ',x(1),'   ',x(2)
+        write(*,*) '    t = ', t, ' x = ', x(1), '  v = ',x(2),'  v_push*t = ',v_push*t
+        write(1,*) t,'  ',x(1),'   ',x(2),'	',v_push*t
         t = t + dt
  
     end do
