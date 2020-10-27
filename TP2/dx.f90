@@ -8,7 +8,7 @@ module tp2
     
     !Variables du probleme
     real, parameter :: w0 = 1.0 ! Vitesse angulaire caracteristique
-    real, parameter :: x0 = 1.0 ! Position initiale
+    real, parameter :: x0 = 0.0 ! Position initiale
     real, parameter :: v0 = 0.0 ! Vitesse initiale
     real, parameter :: gam = 1.0
     real, parameter :: tho = 0.5
@@ -87,7 +87,7 @@ program eqdif
 
         call rk4(t,x,dt,n,deriv)
         write(*,*) '    t = ', t, ' x = ', x(1), '  v = ',x(2)
-        write(1,*) t,'  ',x(1),'   ',x(2)
+        write(1,*) t,'  ',x(1),'   ',x(2),' ',v0*t
         t = t + dt
  
     end do
