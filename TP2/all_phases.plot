@@ -19,15 +19,16 @@ do for [i = 1:docs] {
     replot
 
 }
+
 do for [m = 1:docs] { 
     
     set output 'vitesse_V0_'.m.'.png'
 
-    V0 = 0.1*i*Vc
-    plot 'x(t)_'.i.'.dat' u 1:2
+    V0 = 0.1*m*Vc
+    plot 'x(t)_'.m.'.dat' u 1:2
     set xlabel ' t ( en USI)'
     set ylabel ' Vx(t)_'.m.' ( en USI)'
-    set title 'Vitesse du pendule soumis à un frotement et tiré avec une vitesse v0_'.i.' = '
+    set title 'Vitesse du pendule soumis à un frotement et tiré avec une vitesse v0_'.m.' = '
     replot
 
 }
