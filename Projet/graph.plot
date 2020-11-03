@@ -1,1 +1,1 @@
-plot sin(x)
+plot [-1:1] sin(x)
