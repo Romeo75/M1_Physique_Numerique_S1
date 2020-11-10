@@ -35,7 +35,7 @@ i=(0.,1.)
 x0=2.5
 y0=2.5
 
-open (1, file='dxxyy')
+open (1, file='dxxyy.data')
 	do e=1,n
 	x=e*d
   		do j=1,n
@@ -56,7 +56,7 @@ call cfft2(c,n)
 
 intens=c*conjg(c)
 
-   open(2,file='iqxqy')
+   open(2,file='iqxqy.data')
 	do e=1,n
 		qx = e*2*pi/d
 		do j=1,n
