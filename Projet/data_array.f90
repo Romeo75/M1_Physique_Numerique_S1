@@ -1,7 +1,7 @@
 program array
 
 
-    !Generates the arrays of data array of the 
+    !Generates the arrays of data array of the Slots
     implicit none
 
     !Declaration
