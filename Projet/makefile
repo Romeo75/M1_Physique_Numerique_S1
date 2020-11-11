@@ -38,7 +38,7 @@ compile:
 	${CC} data_array.f90 -L./dfftpack -l dfftpack -o data_array.x
 run:
 	@echo "Running.."
-	#./data.x
+	./data.x
 	./data_array.x
 clean:
 	@echo "Cleaning up..."
