@@ -1,3 +1,3 @@
-set pm3d map
-splot "fente.data" u 1:2:3 w l
+#set pm3d map
+splot "fente.data" u 1:2:3 w p
 
