@@ -26,7 +26,7 @@ program array
 
         if ( k >= int(N/4) .AND. k <= int(N*3/4) ) then
             
-            y(k)%re = 1
+            y(k) = 10
             
         end if
         
@@ -47,7 +47,7 @@ program array
     do k = 1, N
 
         write(2,*) real(x(k)),'   ',real( y(k) ),'   ', real( FFT(k)*conjg(FFT(k)) )
-        write(*,*) real(x(k)),'   ',real( y(k) ),'   ', real( FFT(k)*conjg(FFT(k)) )
+        !write(*,*) real(x(k)),'   ',real( y(k) ),'   ', real( FFT(k)*conjg(FFT(k)) )
     end do
     close(2)
     
