@@ -39,8 +39,8 @@ program array
 
 
     !FFT de la fente crée
-    call dffti(n,w)
-    call dfftf(n,FFT,w)
+    call cffti(n,w)
+    call cfftf(n,FFT,w)
 
     open(2, file = 'fente1d.data')
 

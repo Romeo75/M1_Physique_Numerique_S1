@@ -61,12 +61,12 @@ subroutine cfft2(a,n)
   complex, dimension (n) :: s
   integer :: l,k
 
-  call dffti(n,w)
+  call cffti(n,w)
   do l = 1, n
-    s = a(:,l) ; call dfftf(n,s,w) ; a(:,l) = cshift(s,n/2)
+    s = a(:,l) ; call cfftf(n,s,w) ; a(:,l) = cshift(s,n/2)
   enddo
   do k = 1, n
-    s = a(k,:) ; call dfftf(n,s,w) ; a(k,:) = cshift(s,n/2)
+    s = a(k,:) ; call cfftf(n,s,w) ; a(k,:) = cshift(s,n/2)
   enddo
 
 end subroutine cfft2
