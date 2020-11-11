@@ -2,7 +2,7 @@
 !---------------------------------------------------------------------------
 program g
   implicit none
-  integer, parameter :: n=1000
+  integer, parameter :: n=500
   complex, dimension (n,n) :: a
   real, dimension (4*n+15) :: w
   integer::l,k
