@@ -5,28 +5,51 @@ program array
     implicit none
 
     !Declaration
-    integer, parameter :: N = 10
-    real, dimension(N) :: x,y
-    integer            :: i
-    !Main
+    integer, parameter :: N = 1000
+    complex, dimension(N) :: x,y, FFT
+    real, dimension(4*N+15):: w
+    integer            :: k
+    real               :: xi, xf
     
-    do i = 1, N
-        
-        if ( i > 3 .and. i < 6 ) then ! Examples
-            
-            x(i) = 1     ! Data_Needed
-            y(i) = 1     ! Data_Needed
-            
-            else
-            
-                x(i) = 0
-                y(i) = 0
+    !Initialisation
+    x(:)    = (0,0)    
+    y(:)    = (0,0)    
+    FFT(:)  = (0,0)
+    k = 0
+    xi = 0
+    xf = 20
 
+    x(1) = xi
+
+    !Creation de la Fente 1D
+    do k = 1, N
+
+        if ( k >= int(N/4) .AND. k <= int(N*3/4) ) then
+            
+            y(k)%re = 1
+            
         end if
+        
+        x(k) = k*(xf-xi)/N
 
     end do
 
-    print *,x
-    print *,y
+
+    FFT = y ! Pour garder la reference
+
+
+    !FFT de la fente crée
+    call dffti(n,w)
+    call dfftf(n,FFT,w)
+
+    open(2, file = 'fente1d.data')
+
+    do k = 1, N
+
+        write(2,*) real(x(k)),'   ',real( y(k) ),'   ', real( FFT(k)*conjg(FFT(k)) )
+        !write(*,*) real(x(k)),'   ',real( y(k) ),'   ', real( FFT(k)*conjg(FFT(k)) )
+    end do
+    close(2)
+    
 
 end program array

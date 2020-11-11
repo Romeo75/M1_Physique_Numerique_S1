@@ -33,10 +33,13 @@ files:
 
 compile:
 	@echo "Compile.."
-	${CC} seance1.f90 -L./dfftpack -l dfftpack -o data.x
+	#${CC} seance1.f90 -L./dfftpack -l dfftpack -o data.x
+	#${CC} fente.f90 -L./dfftpack -l dfftpack -o data.x
+	${CC} data_array.f90 -L./dfftpack -l dfftpack -o data_array.x
 run:
 	@echo "Running.."
-	./data.x
+	#./data.x
+	./data_array.x
 clean:
 	@echo "Cleaning up..."
-	rm -rvf *.o ${BINS}
+	rm -rvf *.o ${BINS} *.x *.data
