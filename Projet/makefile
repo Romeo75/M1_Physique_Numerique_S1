@@ -39,7 +39,7 @@ compile:
 run:
 	@echo "Running.."
 	./data.x
-	./data_array.x
+	#./data_array.x
 clean:
 	@echo "Cleaning up..."
-	rm -rvf *.o ${BINS} *.x *.data
+	rm -rvf *.o ${BINS} *.x *.data *.png

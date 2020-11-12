@@ -3,45 +3,45 @@
 program g
   implicit none
   integer, parameter :: n=500
-  complex, dimension (n,n) :: a
+  complex, dimension (n,n) :: a,FFT
   real, dimension (4*n+15) :: w
   integer::l,k
   real:: x,y
-
-  a=(0.,0.) 
-
+  integer Long,lar,PosX,PosY,Dist
+  
+  a        = (0.,0.) ! Initialisation à Zero 
+  PosX     = 250 ! Les Valeurs sont des entiers
+  PosY     = 1   ! Les Valeurs sont des entiers
+  Dist     = 20  ! Les Valeurs sont des entiers
+  Long     = 5  ! Les Valeurs sont des entiers
+  Lar      = 499 ! Les Valeurs sont des entiers
+  
   !----------------------------------------------------------------------------
   ! Construction de deux fentes rectangulaire.
   !----------------------------------------------------------------------------
+  
+  !Deux fentes des dimensions données
+  call fente (a,N,PosX, PosY,Long,Lar)        !Gauche
+  call fente (a,N,PosX + Dist, PosY,Long,Lar) !Droite
 
-  a(n/2-20:n/2-10, n/2-10:n/2+10)=(1.,0.)
-  a(n/2+10:n/2+20, n/2-10:n/2+10)=(1.,0.)
-
-  open(12,file='fente.data')
-  do l = 1, n
-    do k = 1, n
-
-      write(12,*) l, k, real(a(l,k))
-
-    enddo
-  enddo
-
-  close(12)
+  !call reseau(a,N,PosX, PosY,Long,Lar,Dist)
 
   !----------------------------------------------------------------------------
   ! Affichage des deux fentes.
   !----------------------------------------------------------------------------
+  
+  FFT = a
+  call cfft2(FFT,n)
 
-  call cfft2(a,n)
-
-  open(unit=10,file='fraunhofer.data')
+  open(unit=10,file='fente.data')
   do l=1,n
      x=10*dble(l-n/2)/n
 
      do k=1,n
         y=10*dble(k-n/2)/n
 
-        write(10,*)x,y,real(a(l,k)*conjg(a(l,k)))
+        write(10,*)x,y,real(a(l,k)),real( FFT(l,k)*conjg( FFT(l,k)))
+        write(*,*) x,y,real(a(l,k)),real( FFT(l,k)*conjg( FFT(l,k)))
     end do
 
     write(10,*)
@@ -70,3 +70,39 @@ subroutine cfft2(a,n)
   enddo
 
 end subroutine cfft2
+
+!-------------------------------------------------------------------------------------
+! Subroutine fente en a dans la position (PosX,PosY) et de longueur et largeur donnée
+!-------------------------------------------------------------------------------------
+subroutine fente(a,N,PosX, PosY,Long,Lar)
+  implicit none
+  integer,intent(in) :: PosX
+  integer,intent(in) :: PosY
+  integer,intent(in) :: Long
+  integer,intent(in) :: Lar
+  integer,intent(in) :: N
+  complex,dimension(N,N),intent(inout) :: a
+
+  a( PosX:PosX + Long , PosY:PosY + Lar )  = (1.,0.)
+
+end subroutine fente
+
+!-------------------------------------------------------------------------------------
+! Subroutine fente en a dans la position (PosX,PosY) et de longueur et largeur donnée
+!-------------------------------------------------------------------------------------
+subroutine reseau(a,N,PosX, PosY,Long,Lar,Dist)
+implicit none
+integer,intent(in) :: PosX
+  integer,intent(in) :: PosY
+  integer,intent(in) :: Long
+  integer,intent(in) :: Lar
+  integer,intent(in) :: N,Dist 
+  ! Num est le nombre de fentes presentes dans le reseau et Dist la distance qui les separe
+  integer            :: i
+  complex,dimension(N,N),intent(inout) :: a
+
+  do i = 0, ( int( N/Dist ) - 1)
+    call fente(a,N,PosX + i*dist, PosY,Long,Lar)
+  end do
+
+end subroutine reseau
