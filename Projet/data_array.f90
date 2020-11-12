@@ -9,7 +9,7 @@ program array
     complex, dimension(N) :: x,y, FFT
     real, dimension(4*N+15):: w
     integer            :: k
-    real               :: xi, xf
+    real               :: xi, xf, lol
     
     !Initialisation
     x(:)    = (0,0)    
@@ -21,13 +21,17 @@ program array
 
     x(1) = xi
 
+
     !Creation de la Fente 1D
     do k = 1, N
-
-        if ( k >= int(N/4) .AND. k <= int(N*3/4) ) then
+        
+        lol = realpart(x(k))
+        write(*,*) lol
+        y(k) = sin(lol)
+        
+        if ( k >= int(N*4./6) .AND. k <= int(N*5./6) ) then
             
-            y(k) = 10
-            
+        
         end if
         
         x(k) = k*(xf-xi)/N
@@ -47,7 +51,7 @@ program array
     do k = 1, N
 
         write(2,*) real(x(k)),'   ',real( y(k) ),'   ', real( FFT(k)*conjg(FFT(k)) )
-        !write(*,*) real(x(k)),'   ',real( y(k) ),'   ', real( FFT(k)*conjg(FFT(k)) )
+        write(*,*) real(x(k)),'   ',real( y(k) ),'   ', real( FFT(k)*conjg(FFT(k)) )
     end do
     close(2)
     
