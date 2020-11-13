@@ -4,55 +4,64 @@ program g
   implicit none
   integer, parameter :: n=500
   complex, dimension (n,n) :: a,FFT
-  real, dimension (4*n+15) :: w
-  integer::l,k
-  real:: x,y
-  integer Long,lar,PosX,PosY,Dist
-  
-  a        = (0.,0.) ! Initialisation à Zero 
-  PosX     = 250 ! Les Valeurs sont des entiers
-  PosY     = 1   ! Les Valeurs sont des entiers
-  Dist     = 20  ! Les Valeurs sont des entiers
-  Long     = 5  ! Les Valeurs sont des entiers
-  Lar      = 499 ! Les Valeurs sont des entiers
+  integer                  :: nom
+  integer                  :: Long,lar,PosX,PosY,Dist
+  character (len=10)       :: file_name
   
   !----------------------------------------------------------------------------
   ! Construction de deux fentes rectangulaire.
   !----------------------------------------------------------------------------
   
-  !Deux fentes des dimensions données
-  call fente (a,N,PosX, PosY,Long,Lar)        !Gauche
-  call fente (a,N,PosX + Dist, PosY,Long,Lar) !Droite
-
-  !call reseau(a,N,PosX, PosY,Long,Lar,Dist)
-
-  !----------------------------------------------------------------------------
-  ! Affichage des deux fentes.
-  !----------------------------------------------------------------------------
+  nom      = 1
+  a        = (0.,0.) ! Initialisation à Zero 
+  PosX     = 250     ! Les Valeurs sont des entiers
+  PosY     = 1       ! Les Valeurs sont des entiers
+  Dist     = 20      ! Les Valeurs sont des entiers
+  Long     = 5       ! Les Valeurs sont des entiers
+  Lar      = 499     ! Les Valeurs sont des entiers
   
+  ! Creation des deux fentes à partir des dimensions données
+  call fente (a,N,PosX, PosY,Long,Lar)        ! Fente Gauche
+  call fente (a,N,PosX + Dist, PosY,Long,Lar) ! Fente Droite
+  
+  ! Calcul et enregistrement des données.
   FFT = a
   call cfft2(FFT,n)
+  
+  write (file_name,"('fente',i0,'.dat')") nom
 
-  open(unit=10,file='fente.data')
-  do l=1,n
-     x=10*dble(l-n/2)/n
+  call data(a,FFT,N,file_name)
 
-     do k=1,n
-        y=10*dble(k-n/2)/n
 
-        write(10,*)x,y,real(a(l,k)),real( FFT(l,k)*conjg( FFT(l,k)))
-        write(*,*) x,y,real(a(l,k)),real( FFT(l,k)*conjg( FFT(l,k)))
-    end do
+  !----------------------------------------------------------------------------
+  ! Construction de 'un reseau rectangulaire.
+  !----------------------------------------------------------------------------
+  
+  nom      = 2       ! Code du reseau
+  a        = (0.,0.) ! Initialisation à Zero 
+  PosX     = 250     ! Les Valeurs sont des entiers
+  PosY     = 1       ! Les Valeurs sont des entiers
+  Dist     = 10      ! Les Valeurs sont des entiers
+  Long     = 2       ! Les Valeurs sont des entiers
+  Lar      = 499     ! Les Valeurs sont des entiers
 
-    write(10,*)
-    
-  end do 
+  call reseau(a,N,PosX, PosY,Long,Lar,Dist)
+
+  ! Calcul et enregistrement des données.
+  FFT = a
+  call cfft2(FFT,n)
+  nom = 2
+  write (file_name,"('file',i0,'.dat')") nom
+
+  call data(a,FFT,N,file_name)
+
+  
 
 end program g
 
-  !----------------------------------------------------------------------------
-  ! Subroutine FFT en 2D de a
-  !----------------------------------------------------------------------------
+!----------------------------------------------------------------------------
+! Subroutine FFT en 2D de a
+!----------------------------------------------------------------------------
 subroutine cfft2(a,n)
   implicit none
   integer, intent(in) :: n
@@ -71,9 +80,10 @@ subroutine cfft2(a,n)
 
 end subroutine cfft2
 
-!-------------------------------------------------------------------------------------
-! Subroutine fente en a dans la position (PosX,PosY) et de longueur et largeur donnée
-!-------------------------------------------------------------------------------------
+!----------------------------------------------------------------------------
+! Subroutine crée une fente en a dans la position (PosX,PosY)
+! et de longueur et largeur donnée
+!----------------------------------------------------------------------------
 subroutine fente(a,N,PosX, PosY,Long,Lar)
   implicit none
   integer,intent(in) :: PosX
@@ -87,12 +97,13 @@ subroutine fente(a,N,PosX, PosY,Long,Lar)
 
 end subroutine fente
 
-!-------------------------------------------------------------------------------------
-! Subroutine fente en a dans la position (PosX,PosY) et de longueur et largeur donnée
-!-------------------------------------------------------------------------------------
+!----------------------------------------------------------------------------
+! Subroutine un reseau en a dans la position (PosX,PosY) 
+! et de longueur et largeur donnée
+!----------------------------------------------------------------------------
 subroutine reseau(a,N,PosX, PosY,Long,Lar,Dist)
-implicit none
-integer,intent(in) :: PosX
+  implicit none
+  integer,intent(in) :: PosX
   integer,intent(in) :: PosY
   integer,intent(in) :: Long
   integer,intent(in) :: Lar
@@ -106,3 +117,35 @@ integer,intent(in) :: PosX
   end do
 
 end subroutine reseau
+
+!----------------------------------------------------------------------------
+! Subroutine données (Enregistre les données dans un nom donné)
+!----------------------------------------------------------------------------
+subroutine data(a, FFT, n, name)
+  implicit none
+  integer,intent(in)                  :: n
+  complex, dimension (n,n),intent(in) :: a
+  complex, dimension (n,n),intent(in) :: FFT
+  character (len=*), intent(in)   :: name
+  integer   :: l,k
+  real      :: x,y
+  
+  open(unit=10,file = trim(name) )
+  
+  do l=1,n
+     x = 10*dble(l-n/2)/n
+
+     do k=1,n
+        y = 10*dble(k-n/2)/n
+
+        write(10,*)x,y,real(a(l,k)),real( FFT(l,k)*conjg( FFT(l,k)))
+        write(*,*) x,y,real(a(l,k)),real( FFT(l,k)*conjg( FFT(l,k)))
+    end do
+
+    write(10,*)
+    
+  end do
+
+  close(10)
+
+end subroutine data
