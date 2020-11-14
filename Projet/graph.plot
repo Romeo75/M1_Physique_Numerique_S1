@@ -1,4 +1,4 @@
-i = 3
+i = 2
 
 #set terminal png
 #set output 'fente_'.i.'.png'
