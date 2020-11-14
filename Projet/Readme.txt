@@ -23,5 +23,6 @@ Instructions:
 
 To Do:
 
--add library installation from the main makefile
--Finish data array to generate different data types
+-add library installation from the main makefile (done)
+-Finish subroutine to generate different data types (done see subroutine fente)
+-Finish subroutine to save the data (done)
