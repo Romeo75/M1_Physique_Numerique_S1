@@ -166,5 +166,5 @@ set psdir
 set fit brief errorvariables nocovariancevariables errorscaling prescale nowrap v5
 GNUTERM = "qt"
 ## Last datafile plotted: "fente1d.data"
-plot 'fente1d.data' u 1:2
+plot 'fente1d.data' u 1:3
 #    EOF

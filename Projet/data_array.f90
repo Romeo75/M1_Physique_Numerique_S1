@@ -23,15 +23,14 @@ program array
 
 
     !Creation de la Fente 1D
-    do k = 1, N
+    do k = 1, N 
         
-        lol = realpart(x(k))
-        write(*,*) lol
-        y(k) = sin(lol)
+        
         
         if ( k >= int(N*4./6) .AND. k <= int(N*5./6) ) then
+
+            y(k) = (1.,0.)
             
-        
         end if
         
         x(k) = k*(xf-xi)/N
