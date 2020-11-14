@@ -17,4 +17,4 @@ set title 'Matrice de la fente'.i
 replot
 
 clear
-set terminal x11
+#set terminal x11
