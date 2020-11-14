@@ -1,4 +1,4 @@
-i = 1
+i = 2
 
 #set terminal png
 #set output 'fente_'.i.'.png'
@@ -17,4 +17,4 @@ set title 'Matrice de la fente'.i
 replot
 
 clear
-set terminal x11
+#set terminal x11
