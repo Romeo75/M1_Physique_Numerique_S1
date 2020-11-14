@@ -62,10 +62,10 @@ program g
   nom      = 3       ! Code du reseau
   a        = (0.,0.) ! Initialisation à Zero
   PosX     = 250     ! Les Valeurs sont des entiers
-  PosY     = 250       ! Les Valeurs sont des entiers
+  PosY     = 125       ! Les Valeurs sont des entiers
   Dist     = 10      ! Les Valeurs sont des entiers
   Long     = 2       ! Les Valeurs sont des entiers
-  Lar      = 100     ! Les Valeurs sont des entiers
+  Lar      = 250     ! Les Valeurs sont des entiers
 
   call reseau(a,N,PosX, PosY,Long,Lar,Dist)
 

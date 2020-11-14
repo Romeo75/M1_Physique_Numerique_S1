@@ -14,6 +14,7 @@ splot 'file'.i.'.data' u 1:2:3 with points pointtype 5 pointsize 1 palette linew
 set xlabel ' x( en USI)'
 set ylabel ' y( en USI)'
 set title 'Matrice de la fente'.i
+
 replot
 
 clear
