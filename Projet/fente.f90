@@ -28,7 +28,7 @@ program g
   FFT = a
   call cfft2(FFT,n)
   
-  write (file_name,"('fente',i0,'.dat')") nom
+  write (file_name,"('file',i0,'.data')") nom
 
   call data(a,FFT,N,file_name)
 
@@ -51,7 +51,7 @@ program g
   FFT = a
   call cfft2(FFT,n)
   nom = 2
-  write (file_name,"('file',i0,'.dat')") nom
+  write (file_name,"('file',i0,'.data')") nom
 
   call data(a,FFT,N,file_name)
 
@@ -139,7 +139,7 @@ subroutine data(a, FFT, n, name)
         y = 10*dble(k-n/2)/n
 
         write(10,*)x,y,real(a(l,k)),real( FFT(l,k)*conjg( FFT(l,k)))
-        write(*,*) x,y,real(a(l,k)),real( FFT(l,k)*conjg( FFT(l,k)))
+        !write(*,*) x,y,real(a(l,k)),real( FFT(l,k)*conjg( FFT(l,k)))
     end do
 
     write(10,*)
