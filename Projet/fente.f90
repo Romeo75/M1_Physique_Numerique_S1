@@ -34,7 +34,7 @@ program g
 
 
   !----------------------------------------------------------------------------
-  ! Construction de 'un reseau rectangulaire infinie.
+  ! Construction de 'un reseau rectangulaire infini.
   !----------------------------------------------------------------------------
   
   nom      = 2       ! Code du reseau

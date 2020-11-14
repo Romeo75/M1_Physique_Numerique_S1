@@ -8,7 +8,7 @@ splot 'file'.i.'.data' u 1:2:4 with points pointtype 5 pointsize 1 palette linew
 set xlabel ' x( en USI)'
 set ylabel ' y( en USI)'
 set title 'FFT de la fente'.i
-set yrange[-0.1:0.1]
+set yrange[0.015:0.025]
 replot
 
 #set terminal x11
