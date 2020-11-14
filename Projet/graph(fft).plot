@@ -1,5 +1,5 @@
 #FFT de la fente
- i=2
+ i=3
 #  set terminal png
 #  set output 'fente_'.i.'_FFT.png'
 
