@@ -4,11 +4,11 @@
 #  set output 'fente_'.i.'_FFT.png'
 
 set pm3d map
-splot 'file'.i.'.data' u 1:2:4 with points pointtype 5 pointsize 1 palette linewidth 30
+splot 'file'.i.'.data' u 1:2:($4/10**9) with points pointtype 5 pointsize 1 palette linewidth 30
 set xlabel ' x( en USI)'
 set ylabel ' y( en USI)'
 set title 'FFT de la fente'.i
-set yrange[-0.2:0.2]
+set yrange[-3:3]
 replot
 
 #set terminal x11
