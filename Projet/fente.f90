@@ -34,7 +34,7 @@ program g
 
 
   !----------------------------------------------------------------------------
-  ! Construction de 'un reseau rectangulaire.
+  ! Construction de 'un reseau rectangulaire infinie.
   !----------------------------------------------------------------------------
   
   nom      = 2       ! Code du reseau
@@ -55,7 +55,27 @@ program g
 
   call data(a,FFT,N,file_name)
 
+  !----------------------------------------------------------------------------
+  ! Construction d'un reseau rectangulaire.
+  !----------------------------------------------------------------------------
   
+  nom      = 3       ! Code du reseau
+  a        = (0.,0.) ! Initialisation à Zero
+  PosX     = 250     ! Les Valeurs sont des entiers
+  PosY     = 250       ! Les Valeurs sont des entiers
+  Dist     = 10      ! Les Valeurs sont des entiers
+  Long     = 2       ! Les Valeurs sont des entiers
+  Lar      = 100     ! Les Valeurs sont des entiers
+
+  call reseau(a,N,PosX, PosY,Long,Lar,Dist)
+
+  ! Calcul et enregistrement des données.
+  FFT = a
+  call cfft2(FFT,n)
+  nom = 3
+  write (file_name,"('file',i0,'.data')") nom
+
+  call data(a,FFT,N,file_name)
 
 end program g
 
