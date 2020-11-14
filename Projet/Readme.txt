@@ -8,6 +8,11 @@ Un problème d’optique interférentielle qui se calcule très facilement pour 
 
 Dans ce problemme notre intention est de... (intro Fonctions de ref plus pb de et extension)
 
+Physique abordée:
+
+-Fente double infinie
+-Reseau de fentes infinies
+
 Resources:
 
 - Livre Sun_FFT_Library_Instructions à partir de la page 80
