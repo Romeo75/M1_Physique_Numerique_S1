@@ -1,14 +1,14 @@
 #FFT de la fente
- i=3
+ i=2
 #  set terminal png
 #  set output 'fente_'.i.'_FFT.png'
 
 set pm3d map
-splot 'file'.i.'.data' u 1:2:($4/10**9) with points pointtype 5 pointsize 1 palette linewidth 30
+splot 'file'.i.'.data' u 1:2:4 with points pointtype 5 pointsize 1 palette linewidth 30
 set xlabel ' x( en USI)'
 set ylabel ' y( en USI)'
 set title 'FFT de la fente'.i
-set yrange[-3:3]
+set yrange[-0.1:0.1]
 replot
 
 #set terminal x11
