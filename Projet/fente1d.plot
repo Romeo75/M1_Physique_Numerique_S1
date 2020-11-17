@@ -167,4 +167,6 @@ set fit brief errorvariables nocovariancevariables errorscaling prescale nowrap 
 GNUTERM = "qt"
 ## Last datafile plotted: "fente1d.data"
 plot 'fente1d.data' u 1:3
+set xrange[9:11]
+replot
 #    EOF

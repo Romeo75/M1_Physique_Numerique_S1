@@ -153,10 +153,10 @@ subroutine data(a, FFT, n, name)
   open(unit=10,file = trim(name) )
   
   do l=1,n
-     x = 10*dble(l-n/2)/n
+     x = l - n/2
 
      do k=1,n
-        y = 10*dble(k-n/2)/n
+        y = k - n/2
 
         write(10,*)x,y,real(a(l,k)),real( FFT(l,k)*conjg( FFT(l,k)))
         !write(*,*) x,y,real(a(l,k)),real( FFT(l,k)*conjg( FFT(l,k)))

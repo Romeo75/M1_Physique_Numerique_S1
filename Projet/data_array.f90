@@ -45,12 +45,14 @@ program array
     call cffti(n,w)
     call cfftf(n,FFT,w)
 
+    FFT = cshift(FFT,n/2)
+
     open(2, file = 'fente1d.data')
 
     do k = 1, N
 
         write(2,*) real(x(k)),'   ',real( y(k) ),'   ', real( FFT(k)*conjg(FFT(k)) )
-        write(*,*) real(x(k)),'   ',real( y(k) ),'   ', real( FFT(k)*conjg(FFT(k)) )
+        !write(*,*) real(x(k)),'   ',real( y(k) ),'   ', real( FFT(k)*conjg(FFT(k)) )
     end do
     close(2)
     
