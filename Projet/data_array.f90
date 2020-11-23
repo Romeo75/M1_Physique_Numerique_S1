@@ -9,7 +9,7 @@ program array
     complex, dimension(N) :: x,y, FFT
     real, dimension(4*N+15):: w
     integer            :: k
-    real               :: xi, xf, lol
+    real               :: xi, xf
     
     !Initialisation
     x(:)    = (0,0)    
@@ -27,7 +27,7 @@ program array
         
         
         
-        if ( k >= int(N*4./6) .AND. k <= int(N*5./6) ) then
+        if ( k >= int(N*1./2) .AND. k <= int(N*2./3) ) then
 
             y(k) = (1.,0.)
             

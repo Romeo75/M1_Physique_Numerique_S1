@@ -39,6 +39,11 @@ run:
 	@echo "Running.."
 	./data.x
 	./data_array.x
+
+draw:
+	@echo "drawing..."
+	gnuplot -p -e "load'allgraphs.plot'"
+
 clean:
 	@echo "Cleaning up..."
 	rm -rvf *.o ${BINS} *.x *.data *.png

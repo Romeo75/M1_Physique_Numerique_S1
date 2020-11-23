@@ -11,4 +11,4 @@ set title 'FFT de la fente'.i
 set yrange[-10:10]
 replot
 
-#set terminal x11
+#   set terminal x11

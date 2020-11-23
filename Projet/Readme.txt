@@ -16,18 +16,20 @@ Physique abordée:
 Resources:
 
 - Livre Sun_FFT_Library_Instructions à partir de la page 80
-- Code FFT D'un Cos et graphiques ( See graph.plot et graph.plot(fft) )
+- Code FFT D'un crenneau (fente 1D) et graphiques ( See fente1d.plot graph.plot et graph.plot(fft) )
 - dfftpack library with make install commands
 
 Instructions:
 
--install libraries
+-unzip and cd inside the folder
 -open a terminal 
 -make compile
 -make run
+-make draw
 
 To Do:
 
 -add library installation from the main makefile (done)
 -Finish subroutine to generate different data types (done see subroutine fente)
 -Finish subroutine to save the data (done)
+-create subroutine to generate dots of a given radious
