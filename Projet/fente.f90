@@ -5,7 +5,7 @@ program g
   integer, parameter :: n=500
   complex, dimension (n,n) :: a,FFT
   integer                  :: nom
-  integer                  :: Long,lar,PosX,PosY,Dist
+  integer                  :: Long,lar,PosX,PosY,Dist,rayon
   character (len=10)       :: file_name
   
   !----------------------------------------------------------------------------
@@ -50,7 +50,7 @@ program g
   ! Calcul et enregistrement des données.
   FFT = a
   call cfft2(FFT,n)
-  nom = 2
+  
   write (file_name,"('file',i0,'.data')") nom
 
   call data(a,FFT,N,file_name)
@@ -72,10 +72,79 @@ program g
   ! Calcul et enregistrement des données.
   FFT = a
   call cfft2(FFT,n)
-  nom = 3
+  
   write (file_name,"('file',i0,'.data')") nom
 
   call data(a,FFT,N,file_name)
+  
+  !----------------------------------------------------------------------------
+  ! Construction d'une fente circulaire.
+  !----------------------------------------------------------------------------
+  
+  nom      = 4       ! Code du reseau
+  a        = (0.,0.) ! Initialisation à Zero
+  PosX     = 250     ! Les Valeurs sont des entiers
+  PosY     = 225     ! Les Valeurs sont des entiers
+  Dist     = 100     ! Les Valeurs sont des entiers
+  Long     = 5       ! Les Valeurs sont des entiers
+  Lar      = 20      ! Les Valeurs sont des entiers
+
+  call cercle(a,N,PosX, PosY,rayon)
+
+  ! Calcul et enregistrement des données.
+  FFT = a
+  call cfft2(FFT,n)
+  
+  write (file_name,"('file',i0,'.data')") nom
+
+  call data(a,FFT,N,file_name)
+  
+  !----------------------------------------------------------------------------
+  ! Construction d'un reseau de fentes circulaires.
+  !----------------------------------------------------------------------------
+  
+  nom      = 5       ! Code du reseau
+  a        = (0.,0.) ! Initialisation à Zero
+  PosX     = 250     ! Les Valeurs sont des entiers
+  PosY     = 225     ! Les Valeurs sont des entiers
+  Dist     = 100     ! Les Valeurs sont des entiers
+  Long     = 5       ! Les Valeurs sont des entiers
+  Lar      = 20      ! Les Valeurs sont des entiers
+  rayon    = 5       ! Les Valeurs sont des entiers
+  
+  call ReseauRond(a,N,PosX, PosY,rayon,dist)
+
+  ! Calcul et enregistrement des données.
+  FFT = a
+  call cfft2(FFT,n)
+  
+  write (file_name,"('file',i0,'.data')") nom
+
+  call data(a,FFT,N,file_name)
+  
+  !----------------------------------------------------------------------------
+  ! Construction d'un reseau de fentes rectangulaires.
+  !----------------------------------------------------------------------------
+  
+  nom      = 6       ! Code du reseau
+  a        = (0.,0.) ! Initialisation à Zero
+  PosX     = 250     ! Les Valeurs sont des entiers
+  PosY     = 225     ! Les Valeurs sont des entiers
+  Dist     = 100     ! Les Valeurs sont des entiers
+  Long     = 5       ! Les Valeurs sont des entiers
+  Lar      = 20      ! Les Valeurs sont des entiers
+
+  call RedSQR(a,N,PosX, PosY,Long,Lar,Dist)
+
+  ! Calcul et enregistrement des données.
+  FFT = a
+  call cfft2(FFT,n)
+  
+  write (file_name,"('file',i0,'.data')") nom
+
+  call data(a,FFT,N,file_name)
+  
+  
 
 end program g
 
@@ -118,6 +187,50 @@ subroutine fente(a,N,PosX, PosY,Long,Lar)
 end subroutine fente
 
 !----------------------------------------------------------------------------
+! Subroutine crée une fente circulaire en a dans la position (PosX,PosY)
+! et d'un rayon donné
+!----------------------------------------------------------------------------
+subroutine cercle(a,N,PosX, PosY,rayon)
+  implicit none
+  integer,intent(in) :: PosX
+  integer,intent(in) :: PosY
+  integer,intent(in) :: rayon
+  integer,intent(in) :: N
+  complex,dimension(N,N),intent(inout) :: a
+  integer :: l,k
+  
+  do l = 1, n
+    do k = 1,n
+      if ((l - PosY )**2 + (k - PosX )**2 < rayon**2) a( l , k )  = (1.,0.)
+    enddo
+  enddo
+  
+
+end subroutine cercle
+
+!----------------------------------------------------------------------------
+! Subroutine un reseau circulaire en a dans la position (PosX,PosY) 
+! et de cercles de rayon donné
+!----------------------------------------------------------------------------
+subroutine ReseauRond(a,N,PosX, PosY,rayon,Dist)
+  implicit none
+  integer,intent(in) :: PosX
+  integer,intent(in) :: PosY
+  integer,intent(in) :: rayon
+  integer,intent(in) :: N,Dist 
+  ! N/Dist est le nombre de fentes presentes dans le reseau et Dist la distance qui les separe
+  integer            :: i,j
+  complex,dimension(N,N),intent(inout) :: a
+
+  do i = 0, ( int( N/Dist ) - 1)
+    do j = 0, ( int( N/Dist ) - 1)
+      call cercle(a,N,PosX + i*dist, PosY + j*dist, rayon)
+  end do
+
+end subroutine ReseauRond
+
+
+!----------------------------------------------------------------------------
 ! Subroutine un reseau en a dans la position (PosX,PosY) 
 ! et de longueur et largeur donnée
 !----------------------------------------------------------------------------
@@ -137,6 +250,30 @@ subroutine reseau(a,N,PosX, PosY,Long,Lar,Dist)
   end do
 
 end subroutine reseau
+
+
+
+!----------------------------------------------------------------------------
+! Subroutine un reseau de carrés en a dans la position (PosX,PosY) 
+! et de carrées de longueurs et largeurs donnée
+!----------------------------------------------------------------------------
+subroutine RedSQR(a,N,PosX, PosY,Long,Lar,Dist)
+  implicit none
+  integer,intent(in) :: PosX
+  integer,intent(in) :: PosY
+  integer,intent(in) :: Long
+  integer,intent(in) :: Lar
+  integer,intent(in) :: N,Dist 
+  ! Num est le nombre de fentes presentes dans le reseau et Dist la distance qui les separe
+  integer            :: i,j
+  complex,dimension(N,N),intent(inout) :: a
+
+  do i = 0, ( int( N/Dist ) - 1)
+    do j = 0, ( int( N/Dist ) - 1)
+      call fente(a,N,PosX + i*dist, PosY + j*dist,Long,Lar)
+  end do
+
+end subroutine RedSQR
 
 !----------------------------------------------------------------------------
 ! Subroutine données (Enregistre les données dans un nom donné)
