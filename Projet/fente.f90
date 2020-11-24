@@ -1,5 +1,9 @@
-! Programme simulant la diffraction par deux fentes rectangulaire proches.
+
 !---------------------------------------------------------------------------
+! Programme simulant la diffraction de Fraunhofer par de differentes 
+! fonctions de transprence.
+!---------------------------------------------------------------------------
+
 program g
   implicit none
   integer, parameter :: n=500
@@ -34,14 +38,14 @@ program g
 
 
   !----------------------------------------------------------------------------
-  ! Construction de 'un reseau rectangulaire infini.
+  ! Construction d'un reseau rectangulaire infini.
   !----------------------------------------------------------------------------
   
   nom      = 2       ! Code du reseau
   a        = (0.,0.) ! Initialisation à Zero 
   PosX     = 250     ! Les Valeurs sont des entiers
   PosY     = 1       ! Les Valeurs sont des entiers
-  Dist     = 100      ! Les Valeurs sont des entiers
+  Dist     = 100     ! Les Valeurs sont des entiers
   Long     = 5       ! Les Valeurs sont des entiers
   Lar      = 499     ! Les Valeurs sont des entiers
 
@@ -84,10 +88,11 @@ program g
   nom      = 4       ! Code du reseau
   a        = (0.,0.) ! Initialisation à Zero
   PosX     = 250     ! Les Valeurs sont des entiers
-  PosY     = 225     ! Les Valeurs sont des entiers
+  PosY     = 250     ! Les Valeurs sont des entiers
   Dist     = 100     ! Les Valeurs sont des entiers
   Long     = 5       ! Les Valeurs sont des entiers
   Lar      = 20      ! Les Valeurs sont des entiers
+  rayon    = 20       ! Les Valeurs sont des entiers
 
   call cercle(a,N,PosX, PosY,rayon)
 
@@ -105,8 +110,8 @@ program g
   
   nom      = 5       ! Code du reseau
   a        = (0.,0.) ! Initialisation à Zero
-  PosX     = 250     ! Les Valeurs sont des entiers
-  PosY     = 225     ! Les Valeurs sont des entiers
+  PosX     = 50      ! Les Valeurs sont des entiers
+  PosY     = 50      ! Les Valeurs sont des entiers
   Dist     = 100     ! Les Valeurs sont des entiers
   Long     = 5       ! Les Valeurs sont des entiers
   Lar      = 20      ! Les Valeurs sont des entiers
@@ -128,9 +133,9 @@ program g
   
   nom      = 6       ! Code du reseau
   a        = (0.,0.) ! Initialisation à Zero
-  PosX     = 250     ! Les Valeurs sont des entiers
-  PosY     = 225     ! Les Valeurs sont des entiers
-  Dist     = 100     ! Les Valeurs sont des entiers
+  PosX     = 20      ! Les Valeurs sont des entiers
+  PosY     = 1       ! Les Valeurs sont des entiers
+  Dist     = 50      ! Les Valeurs sont des entiers
   Long     = 5       ! Les Valeurs sont des entiers
   Lar      = 20      ! Les Valeurs sont des entiers
 
@@ -225,6 +230,7 @@ subroutine ReseauRond(a,N,PosX, PosY,rayon,Dist)
   do i = 0, ( int( N/Dist ) - 1)
     do j = 0, ( int( N/Dist ) - 1)
       call cercle(a,N,PosX + i*dist, PosY + j*dist, rayon)
+    end do
   end do
 
 end subroutine ReseauRond
@@ -271,6 +277,7 @@ subroutine RedSQR(a,N,PosX, PosY,Long,Lar,Dist)
   do i = 0, ( int( N/Dist ) - 1)
     do j = 0, ( int( N/Dist ) - 1)
       call fente(a,N,PosX + i*dist, PosY + j*dist,Long,Lar)
+    end do
   end do
 
 end subroutine RedSQR
