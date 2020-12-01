@@ -302,8 +302,8 @@ subroutine data(a, FFT, n, name)
      do k=1,n
         y = k - n/2
 
-        write(10,*) x,'  ',' ',y,' ',real(a(l,k)),'  ',real( FFT(l,k)*conjg( FFT(l,k)))
-        !write(*,*) x,'  ',' ',y,' ',real(a(l,k)),'  ',real( FFT(l,k)*conjg( FFT(l,k)))
+        write(10,*) x,' ',y,' ',real(a(l,k)),'  ',real( FFT(l,k)*conjg( FFT(l,k)))
+        !write(*,*) x,' ',y,' ',real(a(l,k)),'  ',real( FFT(l,k)*conjg( FFT(l,k)))
     end do
     
   end do
