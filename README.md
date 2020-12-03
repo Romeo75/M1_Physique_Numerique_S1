@@ -1,2 +1,2 @@
 # M1 - UE Physique Numérique
-TPs et Projets
+TPs et Projet
