@@ -1,6 +1,6 @@
 
 !---------------------------------------------------------------------------
-! Programme simulant la diffraction de Fraunhofer par de differentes 
+! Programme simulant la diffraction de Fraunhofer par differentes 
 ! fonctions de transprence.
 !---------------------------------------------------------------------------
 
@@ -12,11 +12,61 @@ program g
   integer                  :: Long,lar,PosX,PosY,Dist,rayon
   character (len=10)       :: file_name
   
+
   !----------------------------------------------------------------------------
-  ! Construction de deux fentes rectangulaire.
+  ! Construction d'une fentee rectangulaire finie.
   !----------------------------------------------------------------------------
   
-  nom      = 1
+  nom      = 1       ! Code de la fente
+  a        = (0.,0.) ! Initialisation à Zero 
+  PosX     = 250     ! Les Valeurs sont des entiers
+  PosY     = 250       ! Les Valeurs sont des entiers
+  Dist     = 20      ! Les Valeurs sont des entiers
+  Long     = 5       ! Les Valeurs sont des entiers
+  Lar      = 20      ! Les Valeurs sont des entiers
+  
+  ! Creation des deux fentes à partir des dimensions données
+  call fente (a,N,PosX, PosY,Long,Lar)
+  
+  ! Calcul et enregistrement des données.
+  FFT = a
+  call cfft2(FFT,n)
+  
+  write (file_name,"('file',i0,'.data')") nom
+
+  call data(a,FFT,N,file_name)
+
+
+  !----------------------------------------------------------------------------
+  ! Construction de deux fentes rectangulaires finies.
+  !----------------------------------------------------------------------------
+  
+  nom      = nom + 1 ! Code de la fente
+  a        = (0.,0.) ! Initialisation à Zero 
+  PosX     = 250     ! Les Valeurs sont des entiers
+  PosY     = 250       ! Les Valeurs sont des entiers
+  Dist     = 20      ! Les Valeurs sont des entiers
+  Long     = 5       ! Les Valeurs sont des entiers
+  Lar      = 20      ! Les Valeurs sont des entiers
+  
+  ! Creation des deux fentes à partir des dimensions données
+  call fente (a,N,PosX, PosY,Long,Lar)        ! Fente Gauche
+  call fente (a,N,PosX + Dist, PosY,Long,Lar) ! Fente Droite
+  
+  ! Calcul et enregistrement des données.
+  FFT = a
+  call cfft2(FFT,n)
+  
+  write (file_name,"('file',i0,'.data')") nom
+
+  call data(a,FFT,N,file_name)
+
+  
+  !----------------------------------------------------------------------------
+  ! Construction de deux fentes rectangulaires infinies.
+  !----------------------------------------------------------------------------
+  
+  nom      = nom + 1 ! Code de la fente
   a        = (0.,0.) ! Initialisation à Zero 
   PosX     = 250     ! Les Valeurs sont des entiers
   PosY     = 1       ! Les Valeurs sont des entiers
@@ -38,10 +88,10 @@ program g
 
 
   !----------------------------------------------------------------------------
-  ! Construction d'un reseau rectangulaire infini.
+  ! Construction d'un reseau de fentes rectangulaires infinies.
   !----------------------------------------------------------------------------
   
-  nom      = 2       ! Code du reseau
+  nom      = nom + 1 ! Code du reseau
   a        = (0.,0.) ! Initialisation à Zero 
   PosX     = 250     ! Les Valeurs sont des entiers
   PosY     = 1       ! Les Valeurs sont des entiers
@@ -60,10 +110,10 @@ program g
   call data(a,FFT,N,file_name)
 
   !----------------------------------------------------------------------------
-  ! Construction d'un reseau rectangulaire.
+  ! Construction d'un reseau de fentes rectangulaires finies.
   !----------------------------------------------------------------------------
   
-  nom      = 3       ! Code du reseau
+  nom      = nom + 1 ! Code du reseau
   a        = (0.,0.) ! Initialisation à Zero
   PosX     = 250     ! Les Valeurs sont des entiers
   PosY     = 225     ! Les Valeurs sont des entiers
@@ -85,7 +135,7 @@ program g
   ! Construction d'une fente circulaire.
   !----------------------------------------------------------------------------
   
-  nom      = 4       ! Code du reseau
+  nom      = nom + 1 ! Code du reseau
   a        = (0.,0.) ! Initialisation à Zero
   PosX     = 250     ! Les Valeurs sont des entiers
   PosY     = 250     ! Les Valeurs sont des entiers
@@ -105,10 +155,10 @@ program g
   call data(a,FFT,N,file_name)
   
   !----------------------------------------------------------------------------
-  ! Construction d'un reseau de fentes circulaires.
+  ! Construction d'un reseau 2D de fentes circulaires.
   !----------------------------------------------------------------------------
   
-  nom      = 5       ! Code du reseau
+  nom      = nom + 1 ! Code du reseau
   a        = (0.,0.) ! Initialisation à Zero
   PosX     = 50      ! Les Valeurs sont des entiers
   PosY     = 50      ! Les Valeurs sont des entiers
@@ -128,10 +178,10 @@ program g
   call data(a,FFT,N,file_name)
   
   !----------------------------------------------------------------------------
-  ! Construction d'un reseau de fentes rectangulaires.
+  ! Construction d'un reseau 2D de fentes rectangulaires.
   !----------------------------------------------------------------------------
   
-  nom      = 6       ! Code du reseau
+  nom      = nom + 1 ! Code du reseau
   a        = (0.,0.) ! Initialisation à Zero
   PosX     = 20      ! Les Valeurs sont des entiers
   PosY     = 1       ! Les Valeurs sont des entiers

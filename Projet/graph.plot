@@ -1,4 +1,4 @@
-i = 5
+i = 2
 
 #set terminal png
 #set output 'fente_'.i.'.png'
@@ -15,27 +15,37 @@ set ylabel ' y( en USI)'
 set title 'Matrice de la fente'.i
 
 if ( i == 1 ){
+        splot [*:*][*:*][*:*] 'file'.i.'.data' u 1:2:3 with points pointtype 5 pointsize 1.1 palette linewidth 30
+        replot
+        } else {
+
+if ( i == 2 ){
+        splot [*:*][*:*][*:*] 'file'.i.'.data' u 1:2:3 with points pointtype 5 pointsize 1.1 palette linewidth 30
+        replot
+        } else {
+
+if ( i == 3 ){
         splot [-10:35][*:*][*:*] 'file'.i.'.data' u 1:2:3 with points pointtype 5 pointsize 1.1 palette linewidth 30
         replot
         } else {
-            if (i == 2){
+            if (i == 4){
                 splot [*:*][*:*][0:1] 'file'.i.'.data' u 1:2:3 with points pointtype 5 pointsize 0.3 palette linewidth 30
                 replot
             } else{
-                 if (i == 3){
+                 if (i == 5){
                     splot [*:*][*:*][0:1] 'file'.i.'.data' u 1:2:3 with points pointtype 5 pointsize 1 palette linewidth 30
                     replot
                 } else{
                 
-                     if (i == 4){
+                     if (i == 6){
                         splot [-60:60][-60:60][0:1] 'file'.i.'.data' u 1:2:3 with points pointtype 5 pointsize 1 palette linewidth 30
                         replot
                     } else {
-                         if (i == 5){
+                         if (i == 7){
                             splot [*:*][*:*][0:1] 'file'.i.'.data' u 1:2:3 with points pointtype 5 pointsize 0.5 palette linewidth 30
                             replot
                         } else{
-                            if (i == 6){
+                            if (i == 8){
                             splot [*:*][*:*][0:1] 'file'.i.'.data' u 1:2:3 with points pointtype 5 pointsize 1 palette linewidth 30
                             replot
                             } else {
@@ -47,6 +57,8 @@ if ( i == 1 ){
                 }
             }
         }
+    }
+}
 
 replot
 
