@@ -12,47 +12,47 @@ do for [i = 1:N] {
     set palette color positive
     set view map
 
-    set xlabel " x'( entier sans unité ) "    
-    set ylabel " y'( entier sans unité ) "
+    set xlabel " x'( en 1/mm ) "    
+    set ylabel " y'( en 1/mm ) "
     set title 'FFT de la fente'.i
     set autoscale
 
     if ( i == 1 ){
-            splot [*:*][*:*] 'file'.i.'.data' u 4:5:6 with points palette pt 5 ps 0.01 linewidth 0.01
+            splot [*:*][*:*] 'file'.i.'.data' u ($4/1000):($5/1000):6 with points palette pt 5 ps 0.01 linewidth 0.01
             replot
             } else {
 
     if ( i == 2 ){
-            splot [*:*][*:*] 'file'.i.'.data' u 4:5:6 with points palette pt 5 ps 0.01 linewidth 0.01
+            splot [*:*][*:*] 'file'.i.'.data' u ($4/1000):($5/1000):6 with points palette pt 5 ps 0.01 linewidth 0.01
             replot
             } else {
 
     if ( i == 3 ){
-            splot [*:*][*:*] 'file'.i.'.data' u 4:5:6 with points palette pt 5 ps 0.01 linewidth 0.01
+            splot [*:*][*:*] 'file'.i.'.data' u ($4/1000):($5/1000):6 with points palette pt 5 ps 0.01 linewidth 0.01
             replot
             } else {
                 if (i == 4){
-                    splot [*:*][*:*] 'file'.i.'.data' u 4:5:6 with points palette pt 5 ps 0.01 linewidth 0.01
+                    splot [*:*][*:*] 'file'.i.'.data' u ($4/1000):($5/1000):6 with points palette pt 5 ps 0.01 linewidth 0.01
                     replot
                 } else{
                     if (i == 5){
-                        splot [*:*][*:*] 'file'.i.'.data' u 4:5:6 with points palette pt 5 ps 0.01 linewidth 0.01
+                        splot [*:*][*:*] 'file'.i.'.data' u ($4/1000):($5/1000):6 with points palette pt 5 ps 0.01 linewidth 0.01
                         replot
                     } else{
                     
                         if (i == 6){
-                            splot [*:*][*:*]'file'.i.'.data' u 4:5:6 with points palette pt 5 ps 0.01 linewidth 0.01
+                            splot [*:*][*:*]'file'.i.'.data' u ($4/1000):($5/1000):6 with points palette pt 5 ps 0.01 linewidth 0.01
                             replot
                         } else {
                             if (i == 7 ){
-                                splot [*:*][*:*] 'file'.i.'.data' u 4:5:6 with points palette pt 5 ps 0.01 linewidth 0.01
+                                splot [*:*][*:*] 'file'.i.'.data' u ($4/1000):($5/1000):6 with points palette pt 5 ps 0.01 linewidth 0.01
                                 replot
                             } else{
                                 if (i == 8){
-                                splot [*:*][*:*]'file'.i.'.data' u 4:5:6 with points palette pt 5 ps 0.01 linewidth 0.01
+                                splot [*:*][*:*]'file'.i.'.data' u ($4/1000):($5/1000):6 with points palette pt 5 ps 0.01 linewidth 0.01
                                 replot
                                 } else {
-                                    splot 'file'.i.'.data' u 4:5:6 with points palette pt 5 ps 0.01 linewidth 0.01
+                                    splot 'file'.i.'.data' u ($4/1000):($5/1000):6 with points palette pt 5 ps 0.01 linewidth 0.01
                                     replot
                                 }
                             }

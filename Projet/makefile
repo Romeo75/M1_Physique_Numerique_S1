@@ -42,8 +42,8 @@ run:
 
 draw:
 	@echo "drawing..."
-	gnuplot -p -e "load'all_fentes.plot'"
 	gnuplot -p -e "load'all_fft.plot'"
+	gnuplot -p -e "load'all_fentes.plot'"
 
 clean:
 	@echo "Cleaning up..."

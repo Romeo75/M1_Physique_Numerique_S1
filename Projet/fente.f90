@@ -132,8 +132,6 @@ contains
 
   end subroutine reseau
 
-
-
   !----------------------------------------------------------------------------
   ! Subroutine un reseau de carrés en a dans la position (PosX,PosY) 
   ! et de carrées de longueurs et largeurs donnée
@@ -204,13 +202,13 @@ program g
   ! Construction d'une fentee rectangulaire finie.
   !----------------------------------------------------------------------------
   
-  nom      = 1       ! Code de la fente
-  a        = (0.,0.) ! Initialisation à Zero 
-  PosX     = 250     ! Les Valeurs sont des entiers
-  PosY     = 250       ! Les Valeurs sont des entiers
-  Dist     = 20      ! Les Valeurs sont des entiers
-  Long     = 5       ! Les Valeurs sont des entiers
-  Lar      = 20      ! Les Valeurs sont des entiers
+  nom      = 1          ! Code de la fente
+  a        = (0.,0.)    ! Initialisation à Zero 
+  PosX     = 250        ! Les Valeurs sont des entiers
+  PosY     = 250        ! Les Valeurs sont des entiers
+  Dist     = 20         ! Les Valeurs sont des entiers
+  Long     = 0.56e-3/dx ! Les Valeurs sont des entiers 
+  Lar      = 3*Long     ! Les Valeurs sont des entiers
   
   ! Creation des deux fentes à partir des dimensions données
   call fente (a,N,PosX, PosY,Long,Lar)
