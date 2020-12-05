@@ -207,7 +207,7 @@ program g
   PosX     = 250        ! Les Valeurs sont des entiers
   PosY     = 250        ! Les Valeurs sont des entiers
   Dist     = 20         ! Les Valeurs sont des entiers
-  Long     = 0.56e-3/dx ! Les Valeurs sont des entiers 
+  Long     = 1e-3/dx ! Les Valeurs sont des entiers 
   Lar      = 3*Long     ! Les Valeurs sont des entiers
   
   ! Creation des deux fentes à partir des dimensions données
