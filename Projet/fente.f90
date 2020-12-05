@@ -17,10 +17,10 @@ module Fraunhofer
   
   integer, parameter :: n=500
   real,parameter :: PI = 4 * atan(1.0)
-  real,parameter :: f  = 70.0e-2 ! distance focale de la lentille en metres
-  real,parameter :: lambda = 700.0e-9 ! longueur d'onde en metres
-  real,parameter :: k  = 2*PI/(lambda) ! nombre d'onde en metres^-1
-  real,parameter :: fenetre = 5e-2
+  real,parameter :: f  = 30.0e-2      ! distance focale de la lentille en metres
+  real,parameter :: lambda = 650.0e-9 ! longueur d'onde en metres
+  real,parameter :: k  = 2*PI/(lambda)! nombre d'onde en metres^-1
+  real,parameter :: fenetre = 5e-2    ! taille de la fenetre d'observation en metres
   real :: x
   real :: dx = fenetre/n
   real :: y
@@ -207,7 +207,7 @@ program g
   PosX     = 250        ! Les Valeurs sont des entiers
   PosY     = 250        ! Les Valeurs sont des entiers
   Dist     = 20         ! Les Valeurs sont des entiers
-  Long     = 1e-3/dx ! Les Valeurs sont des entiers 
+  Long     = 0.56e-3/dx ! Les Valeurs sont des entiers 
   Lar      = 3*Long     ! Les Valeurs sont des entiers
   
   ! Creation des deux fentes à partir des dimensions données

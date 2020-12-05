@@ -18,7 +18,7 @@ do for [i = 1:N] {
     set autoscale
 
     if ( i == 1 ){
-            splot [*:*][*:*] 'file'.i.'.data' u ($4*1000):($5*1000):6 with points palette pt 5 ps 0.01 linewidth 0.01
+            splot [-2:2][-2:2] 'file'.i.'.data' u ($4*1000):($5*1000):6 with points palette pt 5 ps 0.01 linewidth 0.01
             replot
             } else {
 
