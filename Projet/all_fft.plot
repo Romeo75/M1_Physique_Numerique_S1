@@ -12,8 +12,8 @@ do for [i = 1:N] {
     set palette color positive
     set view map
 
-    set xlabel " x'( en 1/mm ) "    
-    set ylabel " y'( en 1/mm ) "
+    set xlabel " x'( en mm ) "    
+    set ylabel " y'( en mm ) "
     set title 'FFT de la fente'.i
     set autoscale
 
