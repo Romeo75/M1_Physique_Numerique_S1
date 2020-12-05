@@ -175,7 +175,7 @@ contains
       do m=1,n
           y = (m - n/2)
 
-          write(10,*) x*dx,' ',y*dy,' ',real(a(l,m)),'  ',x*dx*ji,'  ',y*dy*ji,'  ',((ji)**2)*real( FFT(l,m)*conjg( FFT(l,m) ))
+          write(10,*) x*dx,' ',y*dy,' ',real(a(l,m)),'  ',x*dx,'  ',y*dy,'  ',((ji)**2)*real( FFT(l,m)*conjg( FFT(l,m) ))
           !write(*,*) x,' ',y,' ',real(a(l,m)),'  ',x*dx/(lambda*f),'  ',y*dy/(lambda*f),'  ',(1/(lambda*f)**2)*real( FFT(l,m)*conjg( FFT(l,m)))
 
       end do
@@ -216,7 +216,7 @@ program g
   ! Calcul et enregistrement des données.
   FFT = a
   call cfft2(FFT,n)
-  
+
   write (file_name,"('file',i0,'.data')") nom
 
   call data(a,FFT,N,file_name)
