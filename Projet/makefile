@@ -34,7 +34,7 @@ files:
 compile:
 	@echo "Compile.."
 	${CC} fente.f90 -no-pie -L./cfftpack -l Fft -o data.x
-	${CC} data_array.f90 -no-pie -L./cfftpack -l Fft -o data_array.x
+	${CC} data_array.f90 -ffree-line-length-512 -no-pie -L./cfftpack -l Fft -o data_array.x
 run:
 	@echo "Running.."
 	./data.x
@@ -42,7 +42,8 @@ run:
 
 draw:
 	@echo "drawing..."
-	gnuplot -p -e "load'allgraphs.plot'"
+	gnuplot -p -e "load'all_fentes.plot'"
+	gnuplot -p -e "load'all_fft.plot'"
 
 clean:
 	@echo "Cleaning up..."

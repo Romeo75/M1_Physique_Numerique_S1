@@ -4,14 +4,201 @@
 ! fonctions de transprence.
 !---------------------------------------------------------------------------
 
-program g
+!---------------------------------------------------------------------------
+! Module enregistrant toutes les constantes physiques et les fonctions
+! necesaires à simuler les diffractions de Fraunhofer
+!---------------------------------------------------------------------------
+module Fraunhofer
   implicit none
+
+  !----------------------------------------------------------------------------
+  ! Constantes physiques
+  !----------------------------------------------------------------------------  
+  
   integer, parameter :: n=500
+  real,parameter :: PI = 4 * atan(1.0)
+  real,parameter :: f  = 70.0e-2 ! distance focale de la lentille en metres
+  real,parameter :: lambda = 700.0e-9 ! longueur d'onde en metres
+  real,parameter :: k  = 2*PI/(lambda) ! nombre d'onde en metres^-1
+  real,parameter :: fenetre = 5e-2
+  real :: x
+  real :: dx = fenetre/n
+  real :: y
+  real :: dy = fenetre/n
+  
+contains
+
+  !----------------------------------------------------------------------------
+  ! Subroutine FFT en 2D de a
+  !----------------------------------------------------------------------------
+  subroutine cfft2(a,n)
+    implicit none
+    integer, intent(in) :: n
+    complex, dimension (n,n), intent(inout) :: a
+    real, dimension (4*n+15) :: w
+    complex, dimension (n) :: s
+    integer :: l,m
+
+    call cffti(n,w)
+    do l = 1, n
+      s = a(:,l) ; call cfftf(n,s,w) ; a(:,l) = cshift(s,n/2)
+    enddo
+    do m = 1, n
+      s = a(m,:) ; call cfftf(n,s,w) ; a(m,:) = cshift(s,n/2)
+    enddo
+
+  end subroutine cfft2
+
+  !----------------------------------------------------------------------------
+  ! Subroutine crée une fente en a dans la position (PosX,PosY)
+  ! et de longueur et largeur donnée
+  !----------------------------------------------------------------------------
+  subroutine fente(a,N,PosX, PosY,Long,Lar)
+    implicit none
+    integer,intent(in) :: PosX
+    integer,intent(in) :: PosY
+    integer,intent(in) :: Long
+    integer,intent(in) :: Lar
+    integer,intent(in) :: N
+    complex,dimension(N,N),intent(inout) :: a
+
+    a( PosX:PosX + Long , PosY:PosY + Lar )  = (1.,0.)
+
+  end subroutine fente
+
+  !----------------------------------------------------------------------------
+  ! Subroutine crée une fente circulaire en a dans la position (PosX,PosY)
+  ! et d'un rayon donné
+  !----------------------------------------------------------------------------
+  subroutine cercle(a,N,PosX, PosY,rayon)
+    implicit none
+    integer,intent(in) :: PosX
+    integer,intent(in) :: PosY
+    integer,intent(in) :: rayon
+    integer,intent(in) :: N
+    complex,dimension(N,N),intent(inout) :: a
+    integer :: l,m
+    
+    do l = 1, n
+      do m = 1,n
+        if ((l - PosY )**2 + (m - PosX )**2 < rayon**2) a( l , m )  = (1.,0.)
+      enddo
+    enddo
+    
+
+  end subroutine cercle
+
+  !----------------------------------------------------------------------------
+  ! Subroutine un reseau circulaire en a dans la position (PosX,PosY) 
+  ! et de cercles de rayon donné
+  !----------------------------------------------------------------------------
+  subroutine ReseauRond(a,N,PosX, PosY,rayon,Dist)
+    implicit none
+    integer,intent(in) :: PosX
+    integer,intent(in) :: PosY
+    integer,intent(in) :: rayon
+    integer,intent(in) :: N,Dist 
+    ! N/Dist est le nombre de fentes presentes dans le reseau et Dist la distance qui les separe
+    integer            :: m,j
+    complex,dimension(N,N),intent(inout) :: a
+
+    do m = 0, ( int( N/Dist ) - 1)
+      do j = 0, ( int( N/Dist ) - 1)
+        call cercle(a,N,PosX + m*dist, PosY + j*dist, rayon)
+      end do
+    end do
+
+  end subroutine ReseauRond
+
+
+  !----------------------------------------------------------------------------
+  ! Subroutine un reseau en a dans la position (PosX,PosY) 
+  ! et de longueur et largeur donnée
+  !----------------------------------------------------------------------------
+  subroutine reseau(a,N,PosX, PosY,Long,Lar,Dist)
+    implicit none
+    integer,intent(in) :: PosX
+    integer,intent(in) :: PosY
+    integer,intent(in) :: Long
+    integer,intent(in) :: Lar
+    integer,intent(in) :: N,Dist 
+    ! Num est le nombre de fentes presentes dans le reseau et Dist la distance qui les separe
+    integer            :: m
+    complex,dimension(N,N),intent(inout) :: a
+
+    do m = 0, ( int( N/Dist ) - 1)
+      call fente(a,N,PosX + m*dist, PosY,Long,Lar)
+    end do
+
+  end subroutine reseau
+
+
+
+  !----------------------------------------------------------------------------
+  ! Subroutine un reseau de carrés en a dans la position (PosX,PosY) 
+  ! et de carrées de longueurs et largeurs donnée
+  !----------------------------------------------------------------------------
+  subroutine RedSQR(a,N,PosX, PosY,Long,Lar,Dist)
+    implicit none
+    integer,intent(in) :: PosX
+    integer,intent(in) :: PosY
+    integer,intent(in) :: Long
+    integer,intent(in) :: Lar
+    integer,intent(in) :: N,Dist 
+    ! Num est le nombre de fentes presentes dans le reseau et Dist la distance qui les separe
+    integer            :: m,j
+    complex,dimension(N,N),intent(inout) :: a
+
+    do m = 0, ( int( N/Dist ) - 1)
+      do j = 0, ( int( N/Dist ) - 1)
+        call fente(a,N,PosX + m*dist, PosY + j*dist,Long,Lar)
+      end do
+    end do
+
+  end subroutine RedSQR
+
+  !----------------------------------------------------------------------------
+  ! Subroutine données (Enregistre les données dans un nom donné)
+  !----------------------------------------------------------------------------
+  subroutine data(a, FFT, n, name)
+    implicit none
+    integer,intent(in)                  :: n
+    complex, dimension (n,n),intent(in) :: a
+    complex, dimension (n,n),intent(in) :: FFT
+    character (len=*), intent(in)   :: name
+    integer   :: l,m
+    real      :: x,y
+    real      :: ji = 1/(lambda*f)
+    open(unit=10,file = trim(name) )
+
+    do l=1,n
+      x = (l - n/2)
+
+      do m=1,n
+          y = (m - n/2)
+
+          write(10,*) x*dx,' ',y*dy,' ',real(a(l,m)),'  ',x*dx*ji,'  ',y*dy*ji,'  ',((ji)**2)*real( FFT(l,m)*conjg( FFT(l,m) ))
+          !write(*,*) x,' ',y,' ',real(a(l,m)),'  ',x*dx/(lambda*f),'  ',y*dy/(lambda*f),'  ',(1/(lambda*f)**2)*real( FFT(l,m)*conjg( FFT(l,m)))
+
+      end do
+      
+      write(10,*)
+      
+    end do
+
+    close(10)
+
+  end subroutine data
+
+end module Fraunhofer
+
+
+program g
+  use Fraunhofer ! Importation des subroutines et constantes du probleme
   complex, dimension (n,n) :: a,FFT
   integer                  :: nom
   integer                  :: Long,lar,PosX,PosY,Dist,rayon
   character (len=10)       :: file_name
-  
 
   !----------------------------------------------------------------------------
   ! Construction d'une fentee rectangulaire finie.
@@ -202,164 +389,3 @@ program g
   
 
 end program g
-
-!----------------------------------------------------------------------------
-! Subroutine FFT en 2D de a
-!----------------------------------------------------------------------------
-subroutine cfft2(a,n)
-  implicit none
-  integer, intent(in) :: n
-  complex, dimension (n,n), intent(inout) :: a
-  real, dimension (4*n+15) :: w
-  complex, dimension (n) :: s
-  integer :: l,k
-
-  call cffti(n,w)
-  do l = 1, n
-    s = a(:,l) ; call cfftf(n,s,w) ; a(:,l) = cshift(s,n/2)
-  enddo
-  do k = 1, n
-    s = a(k,:) ; call cfftf(n,s,w) ; a(k,:) = cshift(s,n/2)
-  enddo
-
-end subroutine cfft2
-
-!----------------------------------------------------------------------------
-! Subroutine crée une fente en a dans la position (PosX,PosY)
-! et de longueur et largeur donnée
-!----------------------------------------------------------------------------
-subroutine fente(a,N,PosX, PosY,Long,Lar)
-  implicit none
-  integer,intent(in) :: PosX
-  integer,intent(in) :: PosY
-  integer,intent(in) :: Long
-  integer,intent(in) :: Lar
-  integer,intent(in) :: N
-  complex,dimension(N,N),intent(inout) :: a
-
-  a( PosX:PosX + Long , PosY:PosY + Lar )  = (1.,0.)
-
-end subroutine fente
-
-!----------------------------------------------------------------------------
-! Subroutine crée une fente circulaire en a dans la position (PosX,PosY)
-! et d'un rayon donné
-!----------------------------------------------------------------------------
-subroutine cercle(a,N,PosX, PosY,rayon)
-  implicit none
-  integer,intent(in) :: PosX
-  integer,intent(in) :: PosY
-  integer,intent(in) :: rayon
-  integer,intent(in) :: N
-  complex,dimension(N,N),intent(inout) :: a
-  integer :: l,k
-  
-  do l = 1, n
-    do k = 1,n
-      if ((l - PosY )**2 + (k - PosX )**2 < rayon**2) a( l , k )  = (1.,0.)
-    enddo
-  enddo
-  
-
-end subroutine cercle
-
-!----------------------------------------------------------------------------
-! Subroutine un reseau circulaire en a dans la position (PosX,PosY) 
-! et de cercles de rayon donné
-!----------------------------------------------------------------------------
-subroutine ReseauRond(a,N,PosX, PosY,rayon,Dist)
-  implicit none
-  integer,intent(in) :: PosX
-  integer,intent(in) :: PosY
-  integer,intent(in) :: rayon
-  integer,intent(in) :: N,Dist 
-  ! N/Dist est le nombre de fentes presentes dans le reseau et Dist la distance qui les separe
-  integer            :: i,j
-  complex,dimension(N,N),intent(inout) :: a
-
-  do i = 0, ( int( N/Dist ) - 1)
-    do j = 0, ( int( N/Dist ) - 1)
-      call cercle(a,N,PosX + i*dist, PosY + j*dist, rayon)
-    end do
-  end do
-
-end subroutine ReseauRond
-
-
-!----------------------------------------------------------------------------
-! Subroutine un reseau en a dans la position (PosX,PosY) 
-! et de longueur et largeur donnée
-!----------------------------------------------------------------------------
-subroutine reseau(a,N,PosX, PosY,Long,Lar,Dist)
-  implicit none
-  integer,intent(in) :: PosX
-  integer,intent(in) :: PosY
-  integer,intent(in) :: Long
-  integer,intent(in) :: Lar
-  integer,intent(in) :: N,Dist 
-  ! Num est le nombre de fentes presentes dans le reseau et Dist la distance qui les separe
-  integer            :: i
-  complex,dimension(N,N),intent(inout) :: a
-
-  do i = 0, ( int( N/Dist ) - 1)
-    call fente(a,N,PosX + i*dist, PosY,Long,Lar)
-  end do
-
-end subroutine reseau
-
-
-
-!----------------------------------------------------------------------------
-! Subroutine un reseau de carrés en a dans la position (PosX,PosY) 
-! et de carrées de longueurs et largeurs donnée
-!----------------------------------------------------------------------------
-subroutine RedSQR(a,N,PosX, PosY,Long,Lar,Dist)
-  implicit none
-  integer,intent(in) :: PosX
-  integer,intent(in) :: PosY
-  integer,intent(in) :: Long
-  integer,intent(in) :: Lar
-  integer,intent(in) :: N,Dist 
-  ! Num est le nombre de fentes presentes dans le reseau et Dist la distance qui les separe
-  integer            :: i,j
-  complex,dimension(N,N),intent(inout) :: a
-
-  do i = 0, ( int( N/Dist ) - 1)
-    do j = 0, ( int( N/Dist ) - 1)
-      call fente(a,N,PosX + i*dist, PosY + j*dist,Long,Lar)
-    end do
-  end do
-
-end subroutine RedSQR
-
-!----------------------------------------------------------------------------
-! Subroutine données (Enregistre les données dans un nom donné)
-!----------------------------------------------------------------------------
-subroutine data(a, FFT, n, name)
-  implicit none
-  integer,intent(in)                  :: n
-  complex, dimension (n,n),intent(in) :: a
-  complex, dimension (n,n),intent(in) :: FFT
-  character (len=*), intent(in)   :: name
-  integer   :: l,k
-  real      :: x,y
-  
-  open(unit=10,file = trim(name) )
-  
-  do l=1,n
-     x = l - n/2
-
-     do k=1,n
-        y = k - n/2
-
-        write(10,*) x,' ',y,' ',real(a(l,k)),'  ',real( FFT(l,k)*conjg( FFT(l,k)))
-        !write(*,*) x,' ',y,' ',real(a(l,k)),'  ',real( FFT(l,k)*conjg( FFT(l,k)))
-    end do
-     
-    write(10,*)
-    
-  end do
-
-  close(10)
-
-end subroutine data

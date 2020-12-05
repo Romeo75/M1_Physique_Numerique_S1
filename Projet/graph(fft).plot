@@ -1,16 +1,16 @@
 #FFT de la fente
-i = 2
+i = 5
 #  set terminal png
 #  set output 'fente_'.i.'_FFT.png'
 
-set view map
 #unset surface
+#set samples 50; set isosamples 50
 set pm3d at b
 set palette color positive
-#set samples 50; set isosamples 50
+set view map
 
-set ylabel ' y( entier sans unité ) '
-set xlabel ' x( entier sans unité )'    
+set ylabel " y'( entier sans unité ) "
+set xlabel " x'( entier sans unité ) "    
 set title 'FFT de la fente'.i
 set autoscale
 
