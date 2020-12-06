@@ -1,4 +1,4 @@
-#Projet Numerique
+# Projet Numerique - Diffraction de Fraunhofer
 Physique Numerique M1 - Sorbonne Sciences - Departement de Physique
 
 
