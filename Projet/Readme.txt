@@ -10,8 +10,13 @@ Dans ce problemme notre intention est de... (intro Fonctions de ref plus pb de e
 
 Physique abordée:
 
+-Fente Simple
 -Fente double infinie
 -Reseau de fentes infinies
+-Reseau de fentes finies
+-Fente circulaire
+-Reseau 2D de fentes rectangulaires
+-Reseau 2D de fentes circulaires
 
 Resources:
 
@@ -32,4 +37,4 @@ To Do:
 -add library installation from the main makefile (done)
 -Finish subroutine to generate different data types (done see subroutine fente)
 -Finish subroutine to save the data (done)
--create subroutine to generate dots of a given radious
+-create subroutine to generate dots of a given radious (done)
