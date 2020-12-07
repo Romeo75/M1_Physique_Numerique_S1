@@ -226,13 +226,13 @@ program g
   ! Construction de deux fentes rectangulaires finies.
   !----------------------------------------------------------------------------
   
-  nom      = nom + 1 ! Code de la fente
-  a        = (0.,0.) ! Initialisation à Zero 
-  PosX     = 250     ! Les Valeurs sont des entiers
-  PosY     = 250       ! Les Valeurs sont des entiers
-  Dist     = 20      ! Les Valeurs sont des entiers
-  Long     = 5       ! Les Valeurs sont des entiers
-  Lar      = 20      ! Les Valeurs sont des entiers
+  nom      = nom + 1     ! Code de la fente
+  a        = (0.,0.)     ! Initialisation à Zero 
+  PosX     = 250         ! Les Valeurs sont des entiers
+  PosY     = 250         ! Les Valeurs sont des entiers
+  Dist     = 20          ! Les Valeurs sont des entiers
+  Long     = 0.5e-3/dx   ! Les Valeurs sont des entiers
+  Lar      = 4*Long      ! Les Valeurs sont des entiers
   
   ! Creation des deux fentes à partir des dimensions données
   call fente (a,N,PosX, PosY,Long,Lar)        ! Fente Gauche
@@ -251,13 +251,13 @@ program g
   ! Construction de deux fentes rectangulaires infinies.
   !----------------------------------------------------------------------------
   
-  nom      = nom + 1 ! Code de la fente
-  a        = (0.,0.) ! Initialisation à Zero 
-  PosX     = 250     ! Les Valeurs sont des entiers
-  PosY     = 1       ! Les Valeurs sont des entiers
-  Dist     = 20      ! Les Valeurs sont des entiers
-  Long     = 5       ! Les Valeurs sont des entiers
-  Lar      = 499     ! Les Valeurs sont des entiers
+  nom      = nom + 1   ! Code de la fente
+  a        = (0.,0.)   ! Initialisation à Zero 
+  PosX     = 250       ! Les Valeurs sont des entiers
+  PosY     = 1         ! Les Valeurs sont des entiers
+  Dist     = 20        ! Les Valeurs sont des entiers
+  Long     = 0.5e-3/dx ! Les Valeurs sont des entiers
+  Lar      = 499       ! Les Valeurs sont des entiers
   
   ! Creation des deux fentes à partir des dimensions données
   call fente (a,N,PosX, PosY,Long,Lar)        ! Fente Gauche
@@ -276,13 +276,13 @@ program g
   ! Construction d'un reseau de fentes rectangulaires infinies.
   !----------------------------------------------------------------------------
   
-  nom      = nom + 1 ! Code du reseau
-  a        = (0.,0.) ! Initialisation à Zero 
-  PosX     = 250     ! Les Valeurs sont des entiers
-  PosY     = 1       ! Les Valeurs sont des entiers
-  Dist     = 100     ! Les Valeurs sont des entiers
-  Long     = 5       ! Les Valeurs sont des entiers
-  Lar      = 499     ! Les Valeurs sont des entiers
+  nom      = nom + 1   ! Code du reseau
+  a        = (0.,0.)   ! Initialisation à Zero 
+  PosX     = 250       ! Les Valeurs sont des entiers
+  PosY     = 1         ! Les Valeurs sont des entiers
+  Dist     = 100       ! Les Valeurs sont des entiers
+  Long     = 0.5e-3/dx ! Les Valeurs sont des entiers
+  Lar      = 499       ! Les Valeurs sont des entiers
 
   call reseau(a,N,PosX, PosY,Long,Lar,Dist)
 
@@ -298,13 +298,13 @@ program g
   ! Construction d'un reseau de fentes rectangulaires finies.
   !----------------------------------------------------------------------------
   
-  nom      = nom + 1 ! Code du reseau
-  a        = (0.,0.) ! Initialisation à Zero
-  PosX     = 250     ! Les Valeurs sont des entiers
-  PosY     = 225     ! Les Valeurs sont des entiers
-  Dist     = 100     ! Les Valeurs sont des entiers
-  Long     = 5       ! Les Valeurs sont des entiers
-  Lar      = 20      ! Les Valeurs sont des entiers
+  nom      = nom + 1    ! Code du reseau
+  a        = (0.,0.)    ! Initialisation à Zero
+  PosX     = 250        ! Les Valeurs sont des entiers
+  PosY     = 225        ! Les Valeurs sont des entiers
+  Dist     = 100        ! Les Valeurs sont des entiers
+  Long     = 0.5e-3/dx  ! Les Valeurs sont des entiers
+  Lar      = 20         ! Les Valeurs sont des entiers
 
   call reseau(a,N,PosX, PosY,Long,Lar,Dist)
 
@@ -327,7 +327,7 @@ program g
   Dist     = 100     ! Les Valeurs sont des entiers
   Long     = 5       ! Les Valeurs sont des entiers
   Lar      = 20      ! Les Valeurs sont des entiers
-  rayon    = 20       ! Les Valeurs sont des entiers
+  rayon    = 0.2e-2/dx       ! Les Valeurs sont des entiers
 
   call cercle(a,N,PosX, PosY,rayon)
 
@@ -350,7 +350,7 @@ program g
   Dist     = 100     ! Les Valeurs sont des entiers
   Long     = 5       ! Les Valeurs sont des entiers
   Lar      = 20      ! Les Valeurs sont des entiers
-  rayon    = 5       ! Les Valeurs sont des entiers
+  rayon    = 0.5e-3/dx       ! Les Valeurs sont des entiers
   
   call ReseauRond(a,N,PosX, PosY,rayon,dist)
 
