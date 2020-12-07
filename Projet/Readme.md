@@ -1,4 +1,4 @@
-Projet Numerique
+# Projet Numerique - Diffraction de Fraunhofer
 Physique Numerique M1 - Sorbonne Sciences - Departement de Physique
 
 
@@ -10,8 +10,13 @@ Dans ce problemme notre intention est de... (intro Fonctions de ref plus pb de e
 
 Physique abordée:
 
--Fente double infinie
--Reseau de fentes infinies
+- Fente Simple
+- Fente double infinie
+- Reseau de fentes infinies
+- Reseau de fentes finies
+- Fente circulaire
+- Reseau 2D de fentes rectangulaires
+- Reseau 2D de fentes circulaires
 
 Resources:
 
@@ -21,15 +26,15 @@ Resources:
 
 Instructions:
 
--unzip and cd inside the folder
--open a terminal 
--make compile
--make run
--make draw
+- unzip and cd inside the folder
+- open a terminal 
+- make compile
+- make run
+- make draw
 
 To Do:
 
--add library installation from the main makefile (done)
--Finish subroutine to generate different data types (done see subroutine fente)
--Finish subroutine to save the data (done)
--create subroutine to generate dots of a given radious
+- add library installation from the main makefile (done)
+- Finish subroutine to generate different data types (done see subroutine fente)
+- Finish subroutine to save the data (done)
+-create subroutine to generate dots of a given radious (done)
