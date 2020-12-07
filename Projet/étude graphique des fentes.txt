@@ -1,0 +1,11 @@
+étude graphique des fentes:
+
+-Fente 0.56mm - 3*0.56mm
+L'erreur sur ces dimensions est de 2% et de 1% resoectivement
+
+En changeant la taillle de la fente on a
+-fente 1mm - 3mm
+L'erreur sur ces dimensions est de 1.2% et de 0.7% respectivement
+
+On deduit qu'il faudrait augmenter n pour etre plus precis sur le calcul de ces grandeurs.
+Cepandant ceci entrainerait un temps de calcul beaucoup plus long.

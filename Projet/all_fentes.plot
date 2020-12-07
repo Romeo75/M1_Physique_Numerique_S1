@@ -20,7 +20,7 @@ do for [i = 1:N] {
     set autoscale
 
     if ( i == 1 ){
-            splot [-0.2:0.3][-0.2:0.3][*:*] 'file'.i.'.data' u (100*$1):(100*$2):3 with points pointtype 5 pointsize 1.0 palette linewidth 0.01
+            splot [-0.3:0.4][-0.3:0.4][*:*] 'file'.i.'.data' u (100*$1):(100*$2):3 with points pointtype 5 pointsize 1.0 palette linewidth 0.01
             replot
             } else {
 

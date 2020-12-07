@@ -204,11 +204,11 @@ program g
   
   nom      = 1          ! Code de la fente
   a        = (0.,0.)    ! Initialisation à Zero 
-  PosX     = 250        ! Les Valeurs sont des entiers
-  PosY     = 250        ! Les Valeurs sont des entiers
-  Dist     = 20         ! Les Valeurs sont des entiers
-  Long     = 0.56e-3/dx ! Les Valeurs sont des entiers 
-  Lar      = 3*Long     ! Les Valeurs sont des entiers
+  PosX     = 250        ! Les Valeurs prises  par les subroutines sont des entiers
+  PosY     = 250        ! Les Valeurs prises  par les subroutines sont des entiers
+  Dist     = 20         ! Les Valeurs prises  par les subroutines sont des entiers
+  Long     = 0.56e-3/dx ! Les Valeurs prises  par les subroutines sont des entiers
+  Lar      = 3*Long     ! Les Valeurs prises  par les subroutines sont des entiers
   
   ! Creation des deux fentes à partir des dimensions données
   call fente (a,N,PosX, PosY,Long,Lar)
@@ -366,13 +366,13 @@ program g
   ! Construction d'un reseau 2D de fentes rectangulaires.
   !----------------------------------------------------------------------------
   
-  nom      = nom + 1 ! Code du reseau
-  a        = (0.,0.) ! Initialisation à Zero
-  PosX     = 20      ! Les Valeurs sont des entiers
-  PosY     = 1       ! Les Valeurs sont des entiers
-  Dist     = 50      ! Les Valeurs sont des entiers
-  Long     = 5       ! Les Valeurs sont des entiers
-  Lar      = 20      ! Les Valeurs sont des entiers
+  nom      = nom + 1   ! Code du reseau
+  a        = (0.,0.)   ! Initialisation à Zero
+  PosX     = 20        ! Les Valeurs sont des entiers
+  PosY     = 1         ! Les Valeurs sont des entiers
+  Dist     = 50        ! Les Valeurs sont des entiers
+  Long     = 0.56e-3/dx! Les Valeurs sont des entiers
+  Lar      = 3*Long    ! Les Valeurs sont des entiers
 
   call RedSQR(a,N,PosX, PosY,Long,Lar,Dist)
 
