@@ -1,11 +1,14 @@
 #FFT de la fente
-i = 5
+i = 1
 #  set terminal png
 #  set output 'fente_'.i.'_FFT.png'
 
 #unset surface
 #set samples 50; set isosamples 50
 #Fente
+    set output 'fente_'.i.'_FFT.png'
+
+    #Fente
     set pm3d at b
     set palette color positive
     set view map
@@ -60,7 +63,5 @@ i = 5
             }
         }
     }
-
-reset
 
 #   set terminal x11

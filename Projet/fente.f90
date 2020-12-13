@@ -174,7 +174,6 @@ contains
 
       do m=1,n
           y = (m - n/2)
-
           write(10,*) x*dx,' ',y*dy,' ',real(a(l,m)),'  ',x*dx,'  ',y*dy,'  ',((ji)**2)*real( FFT(l,m)*conjg( FFT(l,m) ))
           !write(*,*) x,' ',y,' ',real(a(l,m)),'  ',x*dx/(lambda*f),'  ',y*dy/(lambda*f),'  ',(1/(lambda*f)**2)*real( FFT(l,m)*conjg( FFT(l,m)))
 
