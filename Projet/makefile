@@ -33,23 +33,28 @@ files:
 
 compile:
 	@echo "Compiler Running..."
-	${CC} fente.f90 -no-pie -L./cfftpack -l Fft -o data.x
-	${CC} data_array.f90 -ffree-line-length-512 -no-pie -L./cfftpack -l Fft -o data_array.x
+	cd Code/; \
+	${CC} fente.f90 -no-pie -L./cfftpack -l Fft -o data.x ; \
+	${CC} data_array.f90 -ffree-line-length-512 -no-pie -L./cfftpack -l Fft -o data_array.x ; \
+	mv *.x ../Bin
 
 run:
 	@echo "Program Running..."
-	#./data.x
-	./data_array.x
+	cd Bin/ ; \
+	./data.x ; \
+	./data_array.x ; \
+	mv *.data ../Plots
 
 draw:
 	@echo "drawing..."
-	gnuplot -p -e "load'all_fft.plot'"
-	gnuplot -p -e "load'all_fentes.plot'"
+	cd Plots/ ; \
+	gnuplot -p -e "load'all_fft.plot'" ; \
+	gnuplot -p -e "load'all_fentes.plot'" ; \
+	mv *.data ../Data ; \
+	mv *.png ../Images
 
 animation:
-	cd ./Code; \
-	pwd; \
-	ls; \
+	cd Code/; \
 	${CC} anim.f90 -no-pie -L./cfftpack -l Fft -o anim.x ; \
 	mv *.x ../Bin ; \
 	cd ../Bin ; \
@@ -58,7 +63,7 @@ animation:
 	cd ../Plots ;\
 	gnuplot -p -e "load'anim.plot'" ; \
 	mv *.data ../Data ; \
-	mv *.png ../Images ; \
+	mv *.png ../Images
 
 clean:
 	@echo "Cleaning up..."
@@ -68,3 +73,4 @@ clean:
 	rm -Ivf *.o *.x *.data *.png
 	cd Bin/ ; \
 	rm -Ivf *.o *.x *.data *.png
+	clear
